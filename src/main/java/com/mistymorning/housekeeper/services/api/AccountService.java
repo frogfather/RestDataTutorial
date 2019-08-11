@@ -10,4 +10,9 @@ public interface AccountService {
 	
 	public Account getAccount(String id);
 	
+	public Account addAccount(Account account);
+	
+	public Boolean deleteAccount(String id);
+	
+	public Account updateAccount(String id, Account account);
 }
