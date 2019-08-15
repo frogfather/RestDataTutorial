@@ -10,29 +10,30 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mistymorning.housekeeper.classes.Account;
+import com.mistymorning.housekeeper.classes.Budget;
 import com.mistymorning.housekeeper.services.api.AccountService;
+import com.mistymorning.housekeeper.services.api.BudgetService;
 
 @RestController
-public class AccountController {
-	
+public class BudgetController {
+
 	@Autowired
-	private AccountService accountService;
+	private BudgetService budgetService;
 	
-	@RequestMapping("/accounts")
-	public List<Account> all() {
-		return accountService.getAll();
+	@RequestMapping("/budgets")
+	public List<Budget> all() {
+		return this.budgetService.getAll();
 	}
 	
-	@RequestMapping("/accounts/{id}")
-	public Account getAccount(@PathVariable String id) {
-		return accountService.getAccount(id);
+	@RequestMapping("/budgets/{id}")
+	public Budget getBudget(@PathVariable String id) {
+		return this.budgetService.getBudget(id);
 	}
 	
-	@RequestMapping(method=RequestMethod.POST, value="/accounts")
-	public Account addAccount(@RequestBody Account account) {
-		return accountService.addAccount(account);
+	@RequestMapping(method=RequestMethod.POST, value="/budgets")
+	public Budget addBudget(@RequestBody Budget budget) {
+		return this.budgetService.addBudget(budget);
 	}
 	
 	//TODO: Add update method and delete method
-	
 }

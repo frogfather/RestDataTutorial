@@ -21,8 +21,7 @@ public class Seller {
 		this.label = label;
 		this.branch = branch;
 		this.longitude = longitude;
-		this.latiditude = latitude;
-		
+		this.latiditude = latitude;	
 	}
 
 	public Integer getId() {

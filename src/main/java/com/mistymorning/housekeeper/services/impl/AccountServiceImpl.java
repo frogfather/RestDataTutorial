@@ -39,14 +39,14 @@ public class AccountServiceImpl implements AccountService {
 	}
 
 	@Override
-	public Boolean deleteAccount(String id) {
-		this.accountRepository.deleteById(id);
-		return true;
-	}
-
-	@Override
 	public Account updateAccount(String id, Account account) {
 		this.accountRepository.save(account);
 		return account;
 	}
+	
+	@Override
+	public void deleteAccount(String id) {
+		this.accountRepository.deleteById(id);
+	}
+
 }
