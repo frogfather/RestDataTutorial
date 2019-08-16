@@ -9,7 +9,7 @@ import javax.persistence.ManyToOne;
 public class Seller {
 	
 	@Id
-	private Integer id;
+	private String id;
 	private String label;
 	private String branch;
 	@Column(precision=15, scale=10)
@@ -19,7 +19,11 @@ public class Seller {
 	@ManyToOne
 	private Budget budget;
 	
-	public Seller (Integer id, String label, String branch, Double longitude, Double latitude, Integer budgetId) {
+	public Seller() {
+		
+	}
+	
+	public Seller (String id, String label, String branch, Double longitude, Double latitude, String budgetId) {
 		this.id = id;
 		this.label = label;
 		this.branch = branch;
@@ -28,7 +32,7 @@ public class Seller {
 		this.budget = new Budget(budgetId, "", null, null);
 	}
 
-	public Integer getId() {
+	public String getId() {
 		return id;
 	}
 

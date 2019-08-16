@@ -10,7 +10,7 @@ import org.springframework.lang.Nullable;
 public class Category {
 	
 	@Id
-	private Integer id;
+	private String id;
 	private String label;
 	@Nullable
 	private Integer categoryGroup;
@@ -18,7 +18,11 @@ public class Category {
 	@ManyToOne
 	private Budget budget;
 	
-	public Category(Integer id, String label, @Nullable Integer categoryGroup, Integer budgetId) {
+	public Category() {
+		
+	}
+	
+	public Category(String id, String label, @Nullable Integer categoryGroup, String budgetId) {
 		this.id = id;
 		this.label = label;
 		this.master = categoryGroup == null;
@@ -26,7 +30,7 @@ public class Category {
 		this.budget = new Budget(budgetId, "", null, null);
 	}
 
-	public Integer getId() {
+	public String getId() {
 		return id;
 	}
 

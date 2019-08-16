@@ -1,6 +1,8 @@
 package com.mistymorning.housekeeper.classes;
 
-import java.sql.Date;
+import java.sql.Timestamp;
+import java.util.Calendar;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,11 +16,13 @@ import javax.persistence.Table;
 public class Transaction {
 	
 	@Id
-	private Integer id;
+	private String id;
 	private Date date;
 	private String note;
 	@Column(precision=10, scale=2)
 	private Double amount;
+	private Timestamp entered;
+	private Boolean cleared;
 	
 	@ManyToOne
 	private Account account;
@@ -27,7 +31,11 @@ public class Transaction {
 	@ManyToOne
 	private Seller seller;
 	
-	public Transaction(Integer id, Date date, String note, Double amount, Integer accountId, Integer categoryId, Integer sellerId) {
+	public Transaction() {
+		
+	}
+	
+	public Transaction(String id, Date date, String note, Double amount, String accountId, String categoryId, String sellerId) {
 		this.id = id;
 		this.date = date;
 		this.note = note;
@@ -35,10 +43,11 @@ public class Transaction {
 		this.account = new Account(accountId, "", "", null, null);
 		this.category = new Category(categoryId, "", null, null);
 		this.seller = new Seller(sellerId, "", "", null, null, null);
-		
+		this.entered = getTimestamp();
+		this.cleared = false;
 	}
 	
-	public Integer getId() {
+	public String getId() {
 		return id;
 	}
 
@@ -90,5 +99,9 @@ public class Transaction {
 		this.seller = seller;
 	}
 
-	
+	public static Timestamp getTimestamp() {
+        Date date = new Date();
+        long time = date.getTime();
+        return new Timestamp(time);
+    }
 }

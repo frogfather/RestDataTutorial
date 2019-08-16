@@ -8,12 +8,16 @@ import javax.persistence.Id;
 @Entity
 public class Budget {
 	@Id
-	private Integer id;
+	private String id;
 	private String label;
 	private Date startDate;
 	private Period period;
 	
-	public Budget(Integer id, String label, Date startDate, Period period) {
+	public Budget() {
+		
+	}
+	
+	public Budget(String id, String label, Date startDate, Period period) {
 		super();
 		this.id = id;
 		this.label = label;
@@ -21,7 +25,7 @@ public class Budget {
 		this.period = period;
 	}
 
-	public Integer getId() {
+	public String getId() {
 		return this.id;
 	}
 

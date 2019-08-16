@@ -16,6 +16,5 @@ public interface BudgetService {
 	
 	public void deleteBudget(String id);
 	
-	
 }
 

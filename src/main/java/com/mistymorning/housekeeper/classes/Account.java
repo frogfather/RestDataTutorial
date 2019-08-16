@@ -8,14 +8,18 @@ import javax.persistence.ManyToOne;
 public class Account {
 
 	@Id
-	private Integer id;
+	private String id;
 	private String label;
 	private String description;
 	private AccountType accountType;
 	@ManyToOne
 	private Budget budget;
 	
-	public Account(Integer id, String label, String description, AccountType accountType, Integer budgetId) {
+	public Account() {
+		
+	}
+	
+	public Account(String id, String label, String description, AccountType accountType, String budgetId) {
 		super();
 		this.id = id;
 		this.label = label;
@@ -24,7 +28,7 @@ public class Account {
 		this.budget = new Budget(budgetId, "", null, null);
 	}
 
-	public Integer getId() {
+	public String getId() {
 		return id;
 	}
 

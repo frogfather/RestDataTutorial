@@ -11,7 +11,7 @@ import javax.persistence.ManyToOne;
 public class Allocation {
 	
 	@Id
-	private Integer id;
+	private String id;
 	@Column(precision=10, scale=2)
 	private Double amount;
 	private Date date;
@@ -19,13 +19,17 @@ public class Allocation {
 	@ManyToOne
 	private Category category;
 	
-	public Allocation(Integer id, Double amount, Date date, Integer categoryId) {
+	public Allocation() {
+		
+	}
+	
+	public Allocation(String id, Double amount, Date date, String categoryId) {
 		this.id = id;
 		this.amount = amount;
 		this.category = new Category(categoryId, "", null, null);
 	}
 	
-	public Integer getId() {
+	public String getId() {
 		return id;
 	}
 
@@ -45,7 +49,7 @@ public class Allocation {
 		return category;
 	}
 	
-	public void setCategory(Integer categoryId) {
+	public void setCategory(String categoryId) {
 		this.category = new Category(categoryId, "", null, null);
 	}
 
