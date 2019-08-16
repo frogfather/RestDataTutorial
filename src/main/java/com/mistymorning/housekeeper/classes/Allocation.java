@@ -22,7 +22,7 @@ public class Allocation {
 	public Allocation(Integer id, Double amount, Date date, Integer categoryId) {
 		this.id = id;
 		this.amount = amount;
-		this.category = new Category(categoryId, "", null);
+		this.category = new Category(categoryId, "", null, null);
 	}
 	
 	public Integer getId() {
@@ -46,7 +46,7 @@ public class Allocation {
 	}
 	
 	public void setCategory(Integer categoryId) {
-		this.category = new Category(categoryId, "", null);
+		this.category = new Category(categoryId, "", null, null);
 	}
 
 }

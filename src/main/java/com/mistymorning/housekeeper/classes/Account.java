@@ -2,6 +2,7 @@ package com.mistymorning.housekeeper.classes;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class Account {
@@ -11,13 +12,16 @@ public class Account {
 	private String label;
 	private String description;
 	private AccountType accountType;
+	@ManyToOne
+	private Budget budget;
 	
-	public Account(Integer id, String label, String description, AccountType accountType) {
+	public Account(Integer id, String label, String description, AccountType accountType, Integer budgetId) {
 		super();
 		this.id = id;
 		this.label = label;
 		this.description = description;
 		this.accountType = accountType;
+		this.budget = new Budget(budgetId, "", null, null);
 	}
 
 	public Integer getId() {

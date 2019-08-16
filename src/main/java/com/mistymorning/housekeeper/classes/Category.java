@@ -2,6 +2,7 @@ package com.mistymorning.housekeeper.classes;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 import org.springframework.lang.Nullable;
 
@@ -14,12 +15,15 @@ public class Category {
 	@Nullable
 	private Integer categoryGroup;
 	private Boolean master;
+	@ManyToOne
+	private Budget budget;
 	
-	public Category(Integer id, String label, @Nullable Integer categoryGroup ) {
+	public Category(Integer id, String label, @Nullable Integer categoryGroup, Integer budgetId) {
 		this.id = id;
 		this.label = label;
 		this.master = categoryGroup == null;
 		this.categoryGroup = categoryGroup == null ? -1 : categoryGroup;
+		this.budget = new Budget(budgetId, "", null, null);
 	}
 
 	public Integer getId() {

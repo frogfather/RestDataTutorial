@@ -3,6 +3,7 @@ package com.mistymorning.housekeeper.classes;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class Seller {
@@ -15,13 +16,16 @@ public class Seller {
 	private Double longitude;
 	@Column(precision=15, scale=10)
 	private Double latiditude;
+	@ManyToOne
+	private Budget budget;
 	
-	public Seller (Integer id, String label, String branch, Double longitude, Double latitude) {
+	public Seller (Integer id, String label, String branch, Double longitude, Double latitude, Integer budgetId) {
 		this.id = id;
 		this.label = label;
 		this.branch = branch;
 		this.longitude = longitude;
-		this.latiditude = latitude;	
+		this.latiditude = latitude;
+		this.budget = new Budget(budgetId, "", null, null);
 	}
 
 	public Integer getId() {

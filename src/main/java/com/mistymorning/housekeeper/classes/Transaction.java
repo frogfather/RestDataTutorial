@@ -32,9 +32,9 @@ public class Transaction {
 		this.date = date;
 		this.note = note;
 		this.amount = amount;
-		this.account = new Account(accountId, "", "", null);
-		this.category = new Category(categoryId, "", null);
-		this.seller = new Seller(sellerId, "", "", null, null);
+		this.account = new Account(accountId, "", "", null, null);
+		this.category = new Category(categoryId, "", null, null);
+		this.seller = new Seller(sellerId, "", "", null, null, null);
 		
 	}
 	
