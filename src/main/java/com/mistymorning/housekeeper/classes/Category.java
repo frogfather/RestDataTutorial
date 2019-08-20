@@ -1,8 +1,8 @@
 package com.mistymorning.housekeeper.classes;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 
 import org.springframework.lang.Nullable;
 
@@ -10,27 +10,23 @@ import org.springframework.lang.Nullable;
 public class Category {
 	
 	@Id
-	private String id;
+	@GeneratedValue
+	private Long id;
 	private String label;
 	@Nullable
 	private Integer categoryGroup;
-	private Boolean master;
-	@ManyToOne
-	private Budget budget;
 	
 	public Category() {
 		
 	}
 	
-	public Category(String id, String label, @Nullable Integer categoryGroup, String budgetId) {
+	public Category(Long id, String label, @Nullable Integer categoryGroup) {
 		this.id = id;
 		this.label = label;
-		this.master = categoryGroup == null;
-		this.categoryGroup = categoryGroup == null ? -1 : categoryGroup;
-		this.budget = new Budget(budgetId, "", null, null);
+		this.categoryGroup = categoryGroup;
 	}
 
-	public String getId() {
+	public Long getId() {
 		return id;
 	}
 
@@ -44,10 +40,6 @@ public class Category {
 
 	public Integer getCategoryGroup() {
 		return categoryGroup;
-	}
-
-	public Boolean getMaster() {
-		return master;
 	}
 
 }

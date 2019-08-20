@@ -8,13 +8,13 @@ public interface BudgetService {
 	
 	public List<Budget> getAll();
 	
-	public Budget getBudget(String id);
+	public Budget getBudget(Long id);
 	
 	public Budget addBudget(Budget budget);
 	
-	public Budget updateBudget(String id, Budget budget);
+	public Budget updateBudget(Long id, Budget budget);
 	
-	public void deleteBudget(String id);
+	public void deleteBudget(Long id);
 	
 }
 

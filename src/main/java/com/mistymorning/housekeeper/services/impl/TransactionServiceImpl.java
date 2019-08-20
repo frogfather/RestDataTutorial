@@ -7,7 +7,6 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.mistymorning.housekeeper.classes.Account;
 import com.mistymorning.housekeeper.classes.Transaction;
 import com.mistymorning.housekeeper.repository.TransactionRepository;
 import com.mistymorning.housekeeper.services.api.TransactionService;

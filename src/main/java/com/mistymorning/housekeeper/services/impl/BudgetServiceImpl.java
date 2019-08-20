@@ -25,7 +25,7 @@ public class BudgetServiceImpl implements BudgetService {
 	}
 
 	@Override
-	public Budget getBudget(String id) {
+	public Budget getBudget(Long id) {
 		Optional<Budget> found = this.budgetRepository.findById(id);
 		if (found.isPresent()) {
 			return found.get();
@@ -41,14 +41,15 @@ public class BudgetServiceImpl implements BudgetService {
 	}
 
 	@Override
-	public Budget updateBudget(String id, Budget budget) {
+	public Budget updateBudget(Long id, Budget budget) {
 		this.budgetRepository.save(budget);
 		return budget;
 	}
 
 	@Override
-	public void deleteBudget(String id) {
+	public void deleteBudget(Long id) {
 		this.budgetRepository.deleteById(id);
 	}
 
+	
 }

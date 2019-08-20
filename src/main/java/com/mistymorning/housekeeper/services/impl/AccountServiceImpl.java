@@ -1,6 +1,5 @@
 package com.mistymorning.housekeeper.services.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -8,7 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.mistymorning.housekeeper.classes.Account;
+import com.mistymorning.housekeeper.classes.Budget;
 import com.mistymorning.housekeeper.repository.AccountRepository;
+import com.mistymorning.housekeeper.repository.BudgetRepository;
 import com.mistymorning.housekeeper.services.api.AccountService;
 
 @Service
@@ -16,37 +17,53 @@ public class AccountServiceImpl implements AccountService {
 	
 	@Autowired
 	private AccountRepository accountRepository;
+	@Autowired
+	private BudgetRepository budgetRepository;
+
+	@Override
+	public List<Account> getAllAccounts(Long budgetId) {
+		return this.accountRepository.findByBudgetId(budgetId);
+	}
 	
-	public List<Account> getAll() {
-		List<Account> accountList = new ArrayList<>();
-		this.accountRepository.findAll().forEach(accountList::add);
-		return accountList;
+	public Account getAccount(Long budgetId, Long id) {
+		return this.accountRepository.findByBudgetId(budgetId).stream().filter( acc -> acc.getId().equals(id)).findFirst().orElse(null);
 	}
 
-	public Account getAccount(String id) {
-		Optional<Account> found = this.accountRepository.findById(id);
-		if (found.isPresent()) {
-			return found.get();
-		} else {
+	@Override
+	public Account addAccount(Long budgetId, Account account) {
+		Optional<Budget> budget = budgetRepository.findById(budgetId);
+		if (budget == null) {
+			//TODO Throw an error here
 			return null;
+		}else {
+			account.setBudget(budget.get());
+			this.accountRepository.save(account);
+			budget.get().addAccount(account);
+			return account;	
 		}
+		
 	}
 
 	@Override
-	public Account addAccount(Account account) {
-		this.accountRepository.save(account);
-		return account;
-	}
-
-	@Override
-	public Account updateAccount(String id, Account account) {
+	public Account updateAccount(Long id, Account account) {
 		this.accountRepository.save(account);
 		return account;
 	}
 	
 	@Override
-	public void deleteAccount(String id) {
-		this.accountRepository.deleteById(id);
+	public Account deleteAccount(Long accountId) {
+		Optional<Account> account = accountRepository.findById(accountId);
+		if (account == null) {
+			return null;
+			//TODO: throw an error
+		}else {
+			Budget budget = account.get().getBudget();
+			this.accountRepository.deleteById(accountId);
+			budget.removeAccount(account.get());
+			return account.get();
+		}
+		
 	}
+
 
 }

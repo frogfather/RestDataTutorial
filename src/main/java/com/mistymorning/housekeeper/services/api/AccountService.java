@@ -1,19 +1,20 @@
 package com.mistymorning.housekeeper.services.api;
 
+
 import java.util.List;
 
 import com.mistymorning.housekeeper.classes.Account;
 
 public interface AccountService {
-
-	public List<Account> getAll();
 	
-	public Account getAccount(String id);
+	public List<Account> getAllAccounts(Long budgetId);
 	
-	public Account addAccount(Account account);
+	public Account getAccount(Long budgetId, Long id);
 	
-	public Account updateAccount(String id, Account account);
+	public Account addAccount(Long budgetId, Account account);
 	
-	public void deleteAccount(String id);
+	public Account updateAccount(Long id, Account account);
+	
+	public Account deleteAccount(Long accountId);
 	
 }

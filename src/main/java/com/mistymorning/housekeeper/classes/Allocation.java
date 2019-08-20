@@ -4,6 +4,7 @@ import java.sql.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
@@ -11,7 +12,8 @@ import javax.persistence.ManyToOne;
 public class Allocation {
 	
 	@Id
-	private String id;
+	@GeneratedValue
+	private Long id;
 	@Column(precision=10, scale=2)
 	private Double amount;
 	private Date date;
@@ -23,13 +25,13 @@ public class Allocation {
 		
 	}
 	
-	public Allocation(String id, Double amount, Date date, String categoryId) {
+	public Allocation(Long id, Double amount, Date date, Long categoryId) {
 		this.id = id;
 		this.amount = amount;
-		this.category = new Category(categoryId, "", null, null);
+		this.category = new Category(categoryId, "", null);
 	}
 	
-	public String getId() {
+	public Long getId() {
 		return id;
 	}
 
@@ -49,8 +51,8 @@ public class Allocation {
 		return category;
 	}
 	
-	public void setCategory(String categoryId) {
-		this.category = new Category(categoryId, "", null, null);
+	public void setCategory(Long categoryId) {
+		this.category = new Category(categoryId, "", null);
 	}
 
 }

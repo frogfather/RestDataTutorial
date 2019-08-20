@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.mistymorning.housekeeper.classes.Account;
 import com.mistymorning.housekeeper.classes.Category;
 import com.mistymorning.housekeeper.services.api.CategoryService;
 
