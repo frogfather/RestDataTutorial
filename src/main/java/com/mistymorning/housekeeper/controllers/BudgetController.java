@@ -9,7 +9,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.mistymorning.housekeeper.classes.Account;
 import com.mistymorning.housekeeper.classes.Budget;
+import com.mistymorning.housekeeper.services.api.AccountService;
 import com.mistymorning.housekeeper.services.api.BudgetService;
 
 @RestController
@@ -18,6 +20,7 @@ public class BudgetController {
 	@Autowired
 	private BudgetService budgetService;
 	
+	//Operations on budgets
 	@RequestMapping("/budgets")
 	public List<Budget> all() {
 		return this.budgetService.getAll();
@@ -33,5 +36,14 @@ public class BudgetController {
 		return this.budgetService.addBudget(budget);
 	}
 	
-	//TODO: Add update method and delete method
+	@RequestMapping(method=RequestMethod.PUT, value="/budgets/{id}")
+	public Budget updateBudget(@RequestBody Budget budget, @PathVariable Long id) {
+		return this.budgetService.updateBudget(id, budget);
+	}
+	
+	@RequestMapping(method=RequestMethod.DELETE, value="/budgets/{id}")
+	public void deleteBudget(@PathVariable Long id) {
+		this.budgetService.deleteBudget(id);
+	}
+	
 }

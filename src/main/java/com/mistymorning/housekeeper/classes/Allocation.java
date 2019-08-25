@@ -28,7 +28,7 @@ public class Allocation {
 	public Allocation(Long id, Double amount, Date date, Long categoryId) {
 		this.id = id;
 		this.amount = amount;
-		this.category = new Category(categoryId, "", null);
+		this.category = new Category(categoryId, "", null, null);
 	}
 	
 	public Long getId() {
@@ -51,8 +51,8 @@ public class Allocation {
 		return category;
 	}
 	
-	public void setCategory(Long categoryId) {
-		this.category = new Category(categoryId, "", null);
+	public void setCategory(Category category) {
+		this.category = category;
 	}
 
 }

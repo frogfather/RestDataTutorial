@@ -67,7 +67,7 @@ public class Account {
 	public Budget getBudget() {
 		return budget;
 	}
-	
+	//Should this be budgetId?
 	public void setBudget(Budget budget) {
 		this.budget = budget;
 	}

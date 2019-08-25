@@ -6,6 +6,8 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -20,18 +22,35 @@ public class Transaction {
 	private Double amount;
 	private Timestamp entered;
 	private Boolean cleared;
+	private Boolean locked;
+	
+	@ManyToOne
+	@JoinColumn
+	private Account account;
+	
+	@ManyToOne
+	@JoinColumn
+	private Category category;
+	
+	@ManyToOne
+	@JoinColumn
+	private Seller seller;
 	
 	public Transaction() {
 		
 	}
 	
-	public Transaction(String id, Date date, String note, Double amount, String accountId, String categoryId, String sellerId) {
+	public Transaction(String id, Date date, String note, Double amount, Long accountId, Long categoryId, Long sellerId, Long budgetId) {
 		this.id = id;
 		this.date = date;
 		this.note = note;
 		this.amount = amount;
 		this.entered = getTimestamp();
 		this.setCleared(false);
+		this.setLocked(false);
+		this.account = new Account(accountId, "", "", null, budgetId);
+		this.category = new Category(categoryId, "", -1, budgetId);
+		this.seller = new Seller(sellerId, "", "", 0.0, 0.0, budgetId);
 	}
 	
 	public String getId() {
@@ -74,6 +93,13 @@ public class Transaction {
 		this.cleared = cleared;
 	}
 	
+	public Boolean getLocked() {
+		return locked;
+	}
+
+	public void setLocked(Boolean locked) {
+		this.locked = locked;
+	}
 	public static Timestamp getTimestamp() {
         Date date = new Date();
         long time = date.getTime();

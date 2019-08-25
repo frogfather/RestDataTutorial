@@ -4,6 +4,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class Seller {
@@ -18,16 +20,21 @@ public class Seller {
 	@Column(precision=15, scale=10)
 	private Double latiditude;
 	
+	@ManyToOne
+	@JoinColumn
+	private Budget budget;
+	
 	public Seller() {
 		
 	}
 	
-	public Seller (Long id, String label, String branch, Double longitude, Double latitude) {
+	public Seller (Long id, String label, String branch, Double longitude, Double latitude, Long budgetId) {
 		this.id = id;
 		this.label = label;
 		this.branch = branch;
 		this.longitude = longitude;
 		this.latiditude = latitude;
+		this.budget = new Budget(budgetId, "", null, null);
 	}
 
 	public Long getId() {
@@ -64,5 +71,13 @@ public class Seller {
 
 	public void setLatiditude(Double latiditude) {
 		this.latiditude = latiditude;
+	}
+	
+	public Budget getBudget() {
+		return budget;
+	}
+	
+	public void setBudget(Budget budget) {
+		this.budget = budget;
 	}
 }
