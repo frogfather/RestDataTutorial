@@ -9,9 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.mistymorning.housekeeper.classes.Account;
 import com.mistymorning.housekeeper.classes.Budget;
-import com.mistymorning.housekeeper.services.api.AccountService;
 import com.mistymorning.housekeeper.services.api.BudgetService;
 
 @RestController
@@ -22,7 +20,7 @@ public class BudgetController {
 	
 	//Operations on budgets
 	@RequestMapping("/budgets")
-	public List<Budget> all() {
+	public List<Budget> getAllBudgets() {
 		return this.budgetService.getAll();
 	}
 	

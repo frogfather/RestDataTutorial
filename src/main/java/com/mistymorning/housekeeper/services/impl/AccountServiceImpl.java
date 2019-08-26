@@ -36,7 +36,6 @@ public class AccountServiceImpl implements AccountService {
 			//TODO Throw an error here
 			return null;
 		}else {
-			System.out.println("Account number "+account.getId());
 			account.setBudget(budget.get());
 			this.accountRepository.save(account);
 			return account;	
@@ -45,27 +44,23 @@ public class AccountServiceImpl implements AccountService {
 	}
 
 	@Override
-	public Account updateAccount(Long id, Account account) {
-		Optional<Account> existingAccount = this.accountRepository.findById(id);
-		if (existingAccount == null) {
-			//throw exception
+	public Account updateAccount(Long budgetId, Account account) {
+		Optional<Budget> budget = budgetRepository.findById(budgetId);
+		if (budget == null) {
+			//TODO Throw an error here
+			return null;
+		} else {
+			account.setBudget(budget.get());
+			this.accountRepository.save(account);
+			return account;
 		}
-		//Update the fields - or is there an easier way?
-		this.accountRepository.save(account);
-		return account;
 	}
 	
 	@Override
-	public Account deleteAccount(Long accountId) {
-		Optional<Account> account = accountRepository.findById(accountId);
-		if (account == null) {
-			return null;
-			//TODO: throw an error
-		}else {
-			this.accountRepository.deleteById(accountId);
-			return account.get();
-		}
-		
+	public void deleteAccount(Long budgetId, Long accountId) {
+		Account account = this.getAccount(budgetId, accountId);
+		account.setBudget(null);
+		this.accountRepository.deleteById(accountId);
 	}
 
 }

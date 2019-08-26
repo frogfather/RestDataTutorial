@@ -6,13 +6,13 @@ import com.mistymorning.housekeeper.classes.Category;
 
 public interface CategoryService {
 	
-	public List<Category> getAll();
+	public List<Category> getAllCategories(Long budgetId);
 	
-	public Category getCategory(String id);
+	public Category getCategory(Long budgetId, Long id);
 	
-	public Category addCategory(Category category);
+	public Category addCategory(Long budgetId, Category category);
 	
-	public Category updateCategory(String id, Category category);
+	public Category updateCategory(Long budgetId, Category category);
 	
-	public void deleteCategory(String id);
+	public void deleteCategory(Long budgetId, Long id);
 }

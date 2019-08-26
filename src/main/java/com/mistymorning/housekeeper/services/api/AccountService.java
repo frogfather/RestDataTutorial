@@ -13,8 +13,8 @@ public interface AccountService {
 	
 	public Account addAccount(Long budgetId, Account account);
 	
-	public Account updateAccount(Long id, Account account);
+	public Account updateAccount(Long budgetId, Account account);
 	
-	public Account deleteAccount(Long accountId);
+	public void deleteAccount(Long budgetId, Long accountId);
 	
 }

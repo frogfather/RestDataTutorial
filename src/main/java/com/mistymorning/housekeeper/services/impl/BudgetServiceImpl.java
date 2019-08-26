@@ -48,6 +48,7 @@ public class BudgetServiceImpl implements BudgetService {
 
 	@Override
 	public void deleteBudget(Long id) {
+		//TODO Delete all associated entries after dire warning
 		this.budgetRepository.deleteById(id);
 	}
 

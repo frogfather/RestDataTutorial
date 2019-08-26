@@ -35,13 +35,13 @@ public class AccountController {
 		
 		@RequestMapping(method=RequestMethod.PUT, value="/budgets/{budgetId}/accounts/{accountId}")
 		public Account updateAccount(@PathVariable Long budgetId, @PathVariable Long accountId, @RequestBody Account account) {
-			return accountService.updateAccount(accountId, account);
+			return accountService.updateAccount(budgetId, account);
 		}
 		
 		@RequestMapping(method=RequestMethod.DELETE, value="/budgets/{budgetId}/accounts/{accountId}") 
-		public Account deleteAccount(@PathVariable Long budgetId, @PathVariable Long accountId) 
+		public void deleteAccount(@PathVariable Long budgetId, @PathVariable Long accountId) 
 		{
-			return accountService.deleteAccount(accountId);
+			accountService.deleteAccount(budgetId, accountId);
 		}
 	
 }
