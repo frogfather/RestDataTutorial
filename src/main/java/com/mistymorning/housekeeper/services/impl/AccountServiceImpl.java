@@ -25,8 +25,12 @@ public class AccountServiceImpl implements AccountService {
 		return this.accountRepository.findByBudgetId(budgetId);
 	}
 	
-	public Account getAccount(Long budgetId, Long id) {
-		return this.accountRepository.findByBudgetId(budgetId).stream().filter( acc -> acc.getId().equals(id)).findFirst().orElse(null);
+	public Account getAccount(Long budgetId, Long accountId) {
+		Optional<Account> account = this.accountRepository.findById(accountId);
+		if (account.isPresent() && account.get().getBudget().getId()==budgetId) {
+			return account.get();
+		}
+		return null;
 	}
 
 	@Override
@@ -44,13 +48,15 @@ public class AccountServiceImpl implements AccountService {
 	}
 
 	@Override
-	public Account updateAccount(Long budgetId, Account account) {
-		Optional<Budget> budget = budgetRepository.findById(budgetId);
-		if (budget == null) {
+	public Account updateAccount(Long budgetId, Long accountId, Account account) {
+		Optional<Budget> budget = this.budgetRepository.findById(budgetId);
+		Account existing = this.getAccount(budgetId, accountId);
+		if (existing == null || !budget.isPresent()) {
 			//TODO Throw an error here
 			return null;
 		} else {
 			account.setBudget(budget.get());
+			account.setId(accountId);
 			this.accountRepository.save(account);
 			return account;
 		}

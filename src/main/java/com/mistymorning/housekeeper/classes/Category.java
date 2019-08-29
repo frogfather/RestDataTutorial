@@ -6,10 +6,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 import org.springframework.lang.Nullable;
 
-@Entity
+@Entity(name = "Category")
+@Table(name = "category")
 public class Category {
 	
 	@Id
@@ -38,6 +40,10 @@ public class Category {
 		return id;
 	}
 
+	public void setId(Long id) {
+		this.id = id;
+	}
+	
 	public String getLabel() {
 		return label;
 	}

@@ -26,8 +26,12 @@ public class CategoryServiceImpl implements CategoryService{
 	}
 
 	@Override
-	public Category getCategory(Long budgetId, Long id) {
-		return this.categoryRepository.findByBudgetId(budgetId).stream().filter( cat -> cat.getId() == id).findFirst().orElse(null);
+	public Category getCategory(Long budgetId, Long categoryId) {
+		Optional<Category> category = this.categoryRepository.findById(categoryId);
+		if (category.isPresent() && category.get().getBudget().getId() == budgetId) {
+			return category.get();
+		}
+		return null;
 	}
 
 	@Override
@@ -47,13 +51,16 @@ public class CategoryServiceImpl implements CategoryService{
 	}
 
 	@Override
-	public Category updateCategory(Long budgetId, Category category) {
+	public Category updateCategory(Long budgetId, Long categoryId, Category category) {
+		System.out.println("budgetId "+budgetId+" categoryId "+categoryId);
 		Optional<Budget> budget = budgetRepository.findById(budgetId);
-		if (budget == null) {
+		Category existing = this.getCategory(budgetId, categoryId);
+		if (existing == null || !budget.isPresent()) {
 			//TODO Throw an error here
 			return null;
 		}else {
 			category.setBudget(budget.get());
+			category.setId(categoryId);
 			this.categoryRepository.save(category);
 			return category;
 		}

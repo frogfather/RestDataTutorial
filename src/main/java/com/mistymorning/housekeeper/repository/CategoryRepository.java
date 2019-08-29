@@ -9,4 +9,5 @@ import com.mistymorning.housekeeper.classes.Category;
 public interface CategoryRepository extends CrudRepository<Category, Long>{
 
 	public List<Category> findByBudgetId(Long budgetId);
+	
 }

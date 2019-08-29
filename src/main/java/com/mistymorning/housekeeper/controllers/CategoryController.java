@@ -35,7 +35,7 @@ public class CategoryController {
 	
 	@RequestMapping(method=RequestMethod.PUT, value="/budgets/{budgetId}/categories/{categoryId}")
 	public Category updateCategory(@PathVariable Long budgetId, @PathVariable Long categoryId, @RequestBody Category category) {
-		return categoryService.updateCategory(budgetId, category);
+		return categoryService.updateCategory(budgetId, categoryId, category);
 	}
 	
 	@RequestMapping(method=RequestMethod.DELETE, value="/budgets/{budgetId}/categories/{categoryId}") 

@@ -35,7 +35,7 @@ public class AccountController {
 		
 		@RequestMapping(method=RequestMethod.PUT, value="/budgets/{budgetId}/accounts/{accountId}")
 		public Account updateAccount(@PathVariable Long budgetId, @PathVariable Long accountId, @RequestBody Account account) {
-			return accountService.updateAccount(budgetId, account);
+			return accountService.updateAccount(budgetId, accountId, account);
 		}
 		
 		@RequestMapping(method=RequestMethod.DELETE, value="/budgets/{budgetId}/accounts/{accountId}") 
