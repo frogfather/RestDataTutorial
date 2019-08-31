@@ -25,8 +25,8 @@ public class AllocationServiceImpl implements AllocationService {
 	}
 
 	@Override
-	public Allocation getAllocation(String id) {
-		Optional<Allocation> found = this.allocationRepository.findById(id);
+	public Allocation getAllocation(Long allocationId) {
+		Optional<Allocation> found = this.allocationRepository.findById(allocationId);
 		if (found.isPresent()) {
 			return found.get();
 		} else {
@@ -47,8 +47,8 @@ public class AllocationServiceImpl implements AllocationService {
 	}
 
 	@Override
-	public void deleteAllocation(String id) {
-		this.allocationRepository.deleteById(id);
+	public void deleteAllocation(Long allocationId) {
+		this.allocationRepository.deleteById(allocationId);
 		
 	}
 

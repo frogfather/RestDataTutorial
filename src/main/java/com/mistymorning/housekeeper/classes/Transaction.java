@@ -5,17 +5,20 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-@Entity
-@Table(name = "transactions")
+@Entity(name = "Transaction")
+@Table(name = "xtransaction")
 public class Transaction {
 	
 	@Id
-	private String id;
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Long id;
 	private Date date;
 	private String note;
 	@Column(precision=10, scale=2)
@@ -25,22 +28,20 @@ public class Transaction {
 	private Boolean locked;
 	
 	@ManyToOne
-	@JoinColumn
+	@JoinColumn(name="account_id")
 	private Account account;
 	
 	@ManyToOne
-	@JoinColumn
 	private Category category;
 	
 	@ManyToOne
-	@JoinColumn
 	private Seller seller;
 	
 	public Transaction() {
 		
 	}
 	
-	public Transaction(String id, Date date, String note, Double amount, Long accountId, Long categoryId, Long sellerId, Long budgetId) {
+	public Transaction(Long id, Date date, String note, Double amount, Long accountId, Long categoryId, Long sellerId, Long budgetId) {
 		this.id = id;
 		this.date = date;
 		this.note = note;
@@ -53,7 +54,7 @@ public class Transaction {
 		this.seller = new Seller(sellerId, "", "", 0.0, 0.0, budgetId);
 	}
 	
-	public String getId() {
+	public Long getId() {
 		return id;
 	}
 

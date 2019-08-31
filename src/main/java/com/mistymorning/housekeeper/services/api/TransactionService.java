@@ -8,12 +8,12 @@ public interface TransactionService {
 	
 	public List<Transaction> getAll();
 	
-	public Transaction getTransaction(String id);
+	public Transaction getTransaction(Long transactionId);
 	
 	public Transaction addTransaction(Transaction transaction);
 	
-	public Transaction updateTransaction(String id, Transaction transaction);
+	public Transaction updateTransaction(Long transactionId, Transaction transaction);
 	
-	public void deleteTransaction(String id);
+	public void deleteTransaction(Long transactionId);
 
 }

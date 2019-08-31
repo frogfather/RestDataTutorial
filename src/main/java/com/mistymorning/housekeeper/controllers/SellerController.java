@@ -18,21 +18,30 @@ public class SellerController {
 	@Autowired
 	private SellerService sellerService;
 	
-	@RequestMapping("/sellers")
-	public List<Seller> all() {
-		return sellerService.getAll();
+	@RequestMapping("/budgets/{budgetId}/sellers")
+	public List<Seller> getAllAccounts(@PathVariable Long budgetId) {
+		return sellerService.getAllSellers(budgetId);
 	}
 	
-	@RequestMapping("/sellers/{id}")
-	public Seller getSeller(@PathVariable String id) {
-		return sellerService.getSeller(id);
+	@RequestMapping("/budgets/{budgetId}/sellers/{sellerId}")
+	public Seller getSeller(@PathVariable Long budgetId, @PathVariable Long sellerId) {
+		return sellerService.getSeller(budgetId, sellerId);
 	}
 	
-	@RequestMapping(method=RequestMethod.POST, value="/sellers")
-	public Seller addSeller(@RequestBody Seller seller) {
-		return sellerService.addSeller(seller);
+	@RequestMapping(method=RequestMethod.POST, value="/budgets/{budgetId}/sellers")
+	public Seller addSeller(@PathVariable Long budgetId, @RequestBody Seller seller) {
+		return sellerService.addSeller(budgetId, seller);
 	}
 	
-	//TODO: Add update method and delete method
+	@RequestMapping(method=RequestMethod.PUT, value="/budgets/{budgetId}/sellers/{sellerId}")
+	public Seller updateSeller(@PathVariable Long budgetId, @PathVariable Long sellerId, @RequestBody Seller seller) {
+		return sellerService.updateSeller(budgetId, sellerId, seller);
+	}
+	
+	@RequestMapping(method=RequestMethod.DELETE, value="/budgets/{budgetId}/sellers/{sellerId}") 
+	public void deleteSeller(@PathVariable Long budgetId, @PathVariable Long sellerId) 
+	{
+		sellerService.deleteSeller(sellerId);
+	}
 	
 }

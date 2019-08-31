@@ -23,8 +23,8 @@ public class TransactionServiceImpl implements TransactionService{
 		return transactionList;
 	}
 
-	public Transaction getTransaction(String id) {
-		Optional<Transaction> found = this.transactionRepository.findById(id);
+	public Transaction getTransaction(Long transactionId) {
+		Optional<Transaction> found = this.transactionRepository.findById(transactionId);
 		if (found.isPresent()) {
 			return found.get();
 		} else {
@@ -39,14 +39,14 @@ public class TransactionServiceImpl implements TransactionService{
 	}
 
 	@Override
-	public Transaction updateTransaction(String id, Transaction transaction) {
+	public Transaction updateTransaction(Long transactionId, Transaction transaction) {
 		this.transactionRepository.save(transaction);
 		return transaction;
 	}
 	
 	@Override
-	public void deleteTransaction(String id) {
-		this.transactionRepository.deleteById(id);
+	public void deleteTransaction(Long transactionId) {
+		this.transactionRepository.deleteById(transactionId);
 	}
 
 }

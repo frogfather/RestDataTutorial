@@ -63,9 +63,7 @@ public class AccountServiceImpl implements AccountService {
 	}
 	
 	@Override
-	public void deleteAccount(Long budgetId, Long accountId) {
-		Account account = this.getAccount(budgetId, accountId);
-		account.setBudget(null);
+	public void deleteAccount(Long accountId) {
 		this.accountRepository.deleteById(accountId);
 	}
 

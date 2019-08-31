@@ -8,11 +8,11 @@ public interface CategoryService {
 	
 	public List<Category> getAllCategories(Long budgetId);
 	
-	public Category getCategory(Long budgetId, Long id);
+	public Category getCategory(Long budgetId, Long categoryId);
 	
 	public Category addCategory(Long budgetId, Category category);
 	
 	public Category updateCategory(Long budgetId, Long categoryId, Category category);
 	
-	public void deleteCategory(Long budgetId, Long id);
+	public void deleteCategory(Long categoryId);
 }

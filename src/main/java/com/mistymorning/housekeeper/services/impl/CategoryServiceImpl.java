@@ -41,8 +41,6 @@ public class CategoryServiceImpl implements CategoryService{
 			//TODO Throw an error here
 			return null;
 		}else {
-			System.out.println("Budget "+ budget.get().getId());
-			System.out.println("Category "+category.getLabel());
 			category.setBudget(budget.get());
 			this.categoryRepository.save(category);
 			return category;
@@ -52,7 +50,6 @@ public class CategoryServiceImpl implements CategoryService{
 
 	@Override
 	public Category updateCategory(Long budgetId, Long categoryId, Category category) {
-		System.out.println("budgetId "+budgetId+" categoryId "+categoryId);
 		Optional<Budget> budget = budgetRepository.findById(budgetId);
 		Category existing = this.getCategory(budgetId, categoryId);
 		if (existing == null || !budget.isPresent()) {
@@ -67,9 +64,7 @@ public class CategoryServiceImpl implements CategoryService{
 	}
 
 	@Override
-	public void deleteCategory(Long budgetId, Long categoryId) {
-		Category category = this.getCategory(budgetId, categoryId);
-		category.setBudget(null);
+	public void deleteCategory(Long categoryId) {
 		this.categoryRepository.deleteById(categoryId);
 		
 	}

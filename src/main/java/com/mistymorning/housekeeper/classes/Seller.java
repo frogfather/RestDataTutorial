@@ -3,22 +3,25 @@ package com.mistymorning.housekeeper.classes;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
-@Entity
+@Entity(name = "Seller")
+@Table(name = "seller")
 public class Seller {
 	
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String label;
 	private String branch;
 	@Column(precision=15, scale=10)
 	private Double longitude;
 	@Column(precision=15, scale=10)
-	private Double latiditude;
+	private Double latitude;
 	
 	@ManyToOne
 	@JoinColumn
@@ -33,7 +36,7 @@ public class Seller {
 		this.label = label;
 		this.branch = branch;
 		this.longitude = longitude;
-		this.latiditude = latitude;
+		this.latitude = latitude;
 		this.budget = new Budget(budgetId, "", null, null);
 	}
 
@@ -41,6 +44,10 @@ public class Seller {
 		return id;
 	}
 
+	public void setId(Long id) {
+		this.id = id;
+	}
+	
 	public String getLabel() {
 		return label;
 	}
@@ -57,20 +64,20 @@ public class Seller {
 		this.branch = branch;
 	}
 
-	public Double getLongditude() {
+	public Double getLongitude() {
 		return longitude;
 	}
 
-	public void setLongditude(Double longditude) {
-		this.longitude = longditude;
+	public void setLongitude(Double longitude) {
+		this.longitude = longitude;
 	}
 
-	public Double getLatiditude() {
-		return latiditude;
+	public Double getLatitude() {
+		return latitude;
 	}
 
-	public void setLatiditude(Double latiditude) {
-		this.latiditude = latiditude;
+	public void setLatitude(Double latiditude) {
+		this.latitude = latiditude;
 	}
 	
 	public Budget getBudget() {

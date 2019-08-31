@@ -41,7 +41,7 @@ public class CategoryController {
 	@RequestMapping(method=RequestMethod.DELETE, value="/budgets/{budgetId}/categories/{categoryId}") 
 	public void deleteCategory(@PathVariable Long budgetId, @PathVariable Long categoryId) 
 	{
-		categoryService.deleteCategory(budgetId, categoryId);
+		categoryService.deleteCategory(categoryId);
 	}
 	
 }

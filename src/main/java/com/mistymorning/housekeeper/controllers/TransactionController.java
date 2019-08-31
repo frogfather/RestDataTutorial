@@ -24,7 +24,7 @@ public class TransactionController {
 	}
 	
 	@RequestMapping("/transactions/{id}")
-	public Transaction getAccount(@PathVariable String id) {
+	public Transaction getAccount(@PathVariable Long id) {
 		return transactionService.getTransaction(id);
 	}
 	

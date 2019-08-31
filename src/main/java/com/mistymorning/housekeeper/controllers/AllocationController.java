@@ -24,7 +24,7 @@ public class AllocationController {
 	}
 	
 	@RequestMapping("/allocations/{id}")
-	public Allocation getAllocation(@PathVariable String id) {
+	public Allocation getAllocation(@PathVariable Long id) {
 		return allocationService.getAllocation(id);
 	}
 	

@@ -4,6 +4,6 @@ import org.springframework.data.repository.CrudRepository;
 
 import com.mistymorning.housekeeper.classes.Allocation;
 
-public interface AllocationRepository extends CrudRepository<Allocation, String>{
+public interface AllocationRepository extends CrudRepository<Allocation, Long>{
 
 }

@@ -41,7 +41,7 @@ public class AccountController {
 		@RequestMapping(method=RequestMethod.DELETE, value="/budgets/{budgetId}/accounts/{accountId}") 
 		public void deleteAccount(@PathVariable Long budgetId, @PathVariable Long accountId) 
 		{
-			accountService.deleteAccount(budgetId, accountId);
+			accountService.deleteAccount(accountId);
 		}
 	
 }

@@ -8,12 +8,12 @@ public interface AllocationService {
 
 	public List<Allocation> getAll();
 	
-	public Allocation getAllocation(String id);
+	public Allocation getAllocation(Long allocationId);
 	
 	public Allocation addAllocation(Allocation allocation);
 	
 	public Allocation updateAllocation(String id, Allocation allocation);
 	
-	public void deleteAllocation(String id);
+	public void deleteAllocation(Long allocationId);
 	
 }
