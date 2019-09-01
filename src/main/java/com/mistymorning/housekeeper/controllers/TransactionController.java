@@ -13,25 +13,34 @@ import com.mistymorning.housekeeper.classes.Transaction;
 import com.mistymorning.housekeeper.services.api.TransactionService;
 
 @RestController
+@RequestMapping("/transactions")
 public class TransactionController {
 
 	@Autowired
 	private TransactionService transactionService;
 	
-	@RequestMapping("/transactions")
+	@RequestMapping("/")
 	public List<Transaction> all() {
 		return transactionService.getAll();
 	}
 	
-	@RequestMapping("/transactions/{id}")
+	@RequestMapping("/{id}")
 	public Transaction getAccount(@PathVariable Long id) {
 		return transactionService.getTransaction(id);
 	}
 	
-	@RequestMapping(method=RequestMethod.POST, value="/transactions")
+	@RequestMapping(method=RequestMethod.POST, value="/")
 	public Transaction addTransaction(@RequestBody Transaction transaction) {
 		return transactionService.addTransaction(transaction);
 	}
 	
-	//TODO: Add update method and delete method
+	@RequestMapping(method=RequestMethod.PUT, value="/{transactionId}")
+	public Transaction updateTransaction(@PathVariable Long transactionId, @RequestBody Transaction transaction) {
+		return transactionService.updateTransaction(transactionId, transaction);
+	}
+	
+	@RequestMapping(method=RequestMethod.DELETE, value="/{transactionId}")
+	public void deleteTransaction(@PathVariable Long transactionId) {
+		transactionService.deleteTransaction(transactionId);
+	}
 }

@@ -16,11 +16,27 @@ public class TransactionServiceImpl implements TransactionService{
 
 	@Autowired
 	private TransactionRepository transactionRepository;
-	
+	//TODO Retrieving all transactions is going to return an unneccessarily large number
+	//Either have separate 'retrieve all by qualifier' type 
 	public List<Transaction> getAll() {
 		List<Transaction> transactionList = new ArrayList<>();
 		this.transactionRepository.findAll().forEach(transactionList::add);
 		return transactionList;
+	}
+
+	@Override
+	public List<Transaction> getByCategory(Long categoryId) {
+		return this.transactionRepository.findByCategoryId(categoryId);
+	}
+
+	@Override
+	public List<Transaction> getByAccount(Long accountId) {
+		return this.transactionRepository.findByAccountId(accountId);
+	}
+
+	@Override
+	public List<Transaction> getBySeller(Long sellerId) {
+		return this.transactionRepository.findBySellerId(sellerId);
 	}
 
 	public Transaction getTransaction(Long transactionId) {
@@ -49,4 +65,5 @@ public class TransactionServiceImpl implements TransactionService{
 		this.transactionRepository.deleteById(transactionId);
 	}
 
+	
 }

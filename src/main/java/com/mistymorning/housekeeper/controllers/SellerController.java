@@ -13,32 +13,33 @@ import com.mistymorning.housekeeper.classes.Seller;
 import com.mistymorning.housekeeper.services.api.SellerService;
 
 @RestController
+@RequestMapping("/budgets/{budgetId}")
 public class SellerController {
 
 	@Autowired
 	private SellerService sellerService;
 	
-	@RequestMapping("/budgets/{budgetId}/sellers")
+	@RequestMapping("/sellers")
 	public List<Seller> getAllAccounts(@PathVariable Long budgetId) {
 		return sellerService.getAllSellers(budgetId);
 	}
 	
-	@RequestMapping("/budgets/{budgetId}/sellers/{sellerId}")
+	@RequestMapping("/sellers/{sellerId}")
 	public Seller getSeller(@PathVariable Long budgetId, @PathVariable Long sellerId) {
 		return sellerService.getSeller(budgetId, sellerId);
 	}
 	
-	@RequestMapping(method=RequestMethod.POST, value="/budgets/{budgetId}/sellers")
+	@RequestMapping(method=RequestMethod.POST, value="/sellers")
 	public Seller addSeller(@PathVariable Long budgetId, @RequestBody Seller seller) {
 		return sellerService.addSeller(budgetId, seller);
 	}
 	
-	@RequestMapping(method=RequestMethod.PUT, value="/budgets/{budgetId}/sellers/{sellerId}")
+	@RequestMapping(method=RequestMethod.PUT, value="/sellers/{sellerId}")
 	public Seller updateSeller(@PathVariable Long budgetId, @PathVariable Long sellerId, @RequestBody Seller seller) {
 		return sellerService.updateSeller(budgetId, sellerId, seller);
 	}
 	
-	@RequestMapping(method=RequestMethod.DELETE, value="/budgets/{budgetId}/sellers/{sellerId}") 
+	@RequestMapping(method=RequestMethod.DELETE, value="/sellers/{sellerId}") 
 	public void deleteSeller(@PathVariable Long budgetId, @PathVariable Long sellerId) 
 	{
 		sellerService.deleteSeller(sellerId);
