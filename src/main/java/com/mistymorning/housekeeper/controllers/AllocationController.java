@@ -14,33 +14,33 @@ import com.mistymorning.housekeeper.classes.Allocation;
 import com.mistymorning.housekeeper.services.api.AllocationService;
 
 @RestController
-@RequestMapping("/budgets/{budgetId}")
+@RequestMapping("/budgets/{budgetId}/category/{categoryId}")
 public class AllocationController {
 	@Autowired
 	private AllocationService allocationService;
 	
 	
+	@RequestMapping("/allocations")
+	public List<Allocation> getAllocations(@PathVariable Long budgetId, @PathVariable Long categoryId ) {
+		return allocationService.getAll(budgetId, categoryId);
+	}
+	
 	@RequestMapping("/allocations/{date}")
-	public List<Allocation> getAllocations(@PathVariable Long budgetId, @PathVariable Date date ) {
-		return allocationService.getAll(budgetId, date);
-	}
-	
-	@RequestMapping("/categories/{categoryId}/allocations/{date}")
 	public List<Allocation> getAllocation(@PathVariable Long budgetId, @PathVariable Long categoryId, @PathVariable Date periodStart, @PathVariable Date periodEnd ) {
-		return allocationService.getByPeriod(budgetId, periodStart, periodEnd);
+		return allocationService.getByPeriod(budgetId, categoryId, periodStart, periodEnd);
 	}
 	
-	@RequestMapping(method=RequestMethod.POST, value="/categories/{categoryId}/allocations")
-	public Allocation addAllocation(@PathVariable Long budgetId, @PathVariable Long categoryId, @PathVariable Date date, @RequestBody Allocation allocation) {
-		return allocationService.add(budgetId, categoryId, date, allocation);
+	@RequestMapping(method=RequestMethod.POST, value="/allocations")
+	public Allocation addAllocation(@PathVariable Long budgetId, @PathVariable Long categoryId, @RequestBody Allocation allocation) {
+		return allocationService.add(budgetId, categoryId, allocation);
 	}
 	
-	@RequestMapping(method=RequestMethod.PUT, value="/categories/{categoryId}/allocations/{allocationId}")
+	@RequestMapping(method=RequestMethod.PUT, value="/allocations/{allocationId}")
 	public Allocation updateAllocation(@PathVariable Long budgetId, @PathVariable Long categoryId, Long allocationId, @RequestBody Allocation allocation) {
 		return allocationService.update(budgetId, categoryId, allocationId, allocation);
 	}
 	
-	@RequestMapping(method=RequestMethod.DELETE, value="/allocations/{allocationId}") 
+	@RequestMapping(method=RequestMethod.DELETE, value="/") 
 	public void deleteAccount(@PathVariable Long allocationId) 
 	{
 		allocationService.delete(allocationId);
