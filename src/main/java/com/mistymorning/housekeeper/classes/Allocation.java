@@ -19,8 +19,8 @@ public class Allocation {
 	private Long id;
 	@Column(precision=10, scale=2)
 	private Double amount;
-	private Date startDate;
-	private Date endDate;
+	private Date periodDate;
+
 	
 	@ManyToOne
 	private Category category;
@@ -39,13 +39,10 @@ public class Allocation {
 		return id;
 	}
 
-	public Date getStartDate() {
-		return startDate;
+	public Date getPeriodDate() {
+		return periodDate;
 	}
 
-	public Date getEndDate() {
-		return endDate;
-	}
 	
 	public Double getAmount() {
 		return amount;

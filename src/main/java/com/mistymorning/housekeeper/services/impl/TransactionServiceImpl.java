@@ -16,7 +16,7 @@ public class TransactionServiceImpl implements TransactionService{
 
 	@Autowired
 	private TransactionRepository transactionRepository;
-	//TODO Retrieving all transactions is going to return an unneccessarily large number
+	//TODO Retrieving all transactions is going to return an unnecessarily large number
 	//Either have separate 'retrieve all by qualifier' type 
 	public List<Transaction> getAll() {
 		List<Transaction> transactionList = new ArrayList<>();

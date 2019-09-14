@@ -22,28 +22,28 @@ public class AllocationController {
 	
 	@RequestMapping("/allocations/{date}")
 	public List<Allocation> getAllocations(@PathVariable Long budgetId, @PathVariable Date date ) {
-		return allocationService.getAllocations(budgetId, date);
+		return allocationService.getAll(budgetId, date);
 	}
 	
 	@RequestMapping("/categories/{categoryId}/allocations/{date}")
-	public Allocation getAllocation(@PathVariable Long budgetId, @PathVariable Long categoryId, @PathVariable Date date ) {
-		return allocationService.getAllocation(budgetId, categoryId, date);
+	public List<Allocation> getAllocation(@PathVariable Long budgetId, @PathVariable Long categoryId, @PathVariable Date periodStart, @PathVariable Date periodEnd ) {
+		return allocationService.getByPeriod(budgetId, periodStart, periodEnd);
 	}
 	
 	@RequestMapping(method=RequestMethod.POST, value="/categories/{categoryId}/allocations")
 	public Allocation addAllocation(@PathVariable Long budgetId, @PathVariable Long categoryId, @PathVariable Date date, @RequestBody Allocation allocation) {
-		return allocationService.addAllocation(budgetId, categoryId, date, allocation);
+		return allocationService.add(budgetId, categoryId, date, allocation);
 	}
 	
 	@RequestMapping(method=RequestMethod.PUT, value="/categories/{categoryId}/allocations/{allocationId}")
 	public Allocation updateAllocation(@PathVariable Long budgetId, @PathVariable Long categoryId, Long allocationId, @RequestBody Allocation allocation) {
-		return allocationService.updateAllocation(budgetId, categoryId, allocationId, allocation);
+		return allocationService.update(budgetId, categoryId, allocationId, allocation);
 	}
 	
 	@RequestMapping(method=RequestMethod.DELETE, value="/allocations/{allocationId}") 
 	public void deleteAccount(@PathVariable Long allocationId) 
 	{
-		allocationService.deleteAllocation(allocationId);
+		allocationService.delete(allocationId);
 	}
 	
 }
