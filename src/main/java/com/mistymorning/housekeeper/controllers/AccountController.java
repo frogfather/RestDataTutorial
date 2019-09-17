@@ -1,6 +1,6 @@
 package com.mistymorning.housekeeper.controllers;
 
-import java.util.List;
+import javax.ws.rs.core.Response;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,29 +14,29 @@ import com.mistymorning.housekeeper.services.api.AccountService;
 
 @RestController
 @RequestMapping("/budgets/{budgetId}")
-public class AccountController {
+public class AccountController extends AbstractController{
 	
 	@Autowired
 	private AccountService accountService;
 	
 		@RequestMapping("/accounts")
-		public List<Account> getAllAccounts(@PathVariable Long budgetId) {
-			return accountService.getAllAccounts(budgetId);
+		public Response getAllAccounts(@PathVariable Long budgetId) {
+			return buildResponse( true, accountService.getAllAccounts(budgetId));
 		}
 		
 		@RequestMapping("/accounts/{id}")
-		public Account getAccount(@PathVariable Long budgetId, @PathVariable Long id) {
-			return accountService.getAccount(budgetId, id);
+		public Response getAccount(@PathVariable Long budgetId, @PathVariable Long id) {
+			return buildResponse( true, accountService.getAccount(budgetId, id));
 		}
 		
 		@RequestMapping(method=RequestMethod.POST, value="/accounts")
-		public Account addAccount(@PathVariable Long budgetId, @RequestBody Account account) {
-			return accountService.addAccount(budgetId, account);
+		public Response addAccount(@PathVariable Long budgetId, @RequestBody Account account) {
+			return buildResponse( true, accountService.addAccount(budgetId, account));
 		}
 		
 		@RequestMapping(method=RequestMethod.PUT, value="/accounts/{accountId}")
-		public Account updateAccount(@PathVariable Long budgetId, @PathVariable Long accountId, @RequestBody Account account) {
-			return accountService.updateAccount(budgetId, accountId, account);
+		public Response updateAccount(@PathVariable Long budgetId, @PathVariable Long accountId, @RequestBody Account account) {
+			return buildResponse( true, accountService.updateAccount(budgetId, accountId, account));
 		}
 		
 		@RequestMapping(method=RequestMethod.DELETE, value="/accounts/{accountId}") 

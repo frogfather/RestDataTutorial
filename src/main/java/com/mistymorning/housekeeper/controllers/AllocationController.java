@@ -1,7 +1,8 @@
 package com.mistymorning.housekeeper.controllers;
 
 import java.sql.Date;
-import java.util.List;
+
+import javax.ws.rs.core.Response;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,29 +16,29 @@ import com.mistymorning.housekeeper.services.api.AllocationService;
 
 @RestController
 @RequestMapping("/budgets/{budgetId}/category/{categoryId}")
-public class AllocationController {
+public class AllocationController extends AbstractController {
 	@Autowired
 	private AllocationService allocationService;
 	
 	
 	@RequestMapping("/allocations")
-	public List<Allocation> getAllocations(@PathVariable Long budgetId, @PathVariable Long categoryId ) {
-		return allocationService.getAll(budgetId, categoryId);
+	public Response getAllocations(@PathVariable Long budgetId, @PathVariable Long categoryId ) {
+		return buildResponse(true, allocationService.getAll(budgetId, categoryId));
 	}
 	
 	@RequestMapping("/allocations/{date}")
-	public List<Allocation> getAllocation(@PathVariable Long budgetId, @PathVariable Long categoryId, @PathVariable Date periodStart, @PathVariable Date periodEnd ) {
-		return allocationService.getByPeriod(budgetId, categoryId, periodStart, periodEnd);
+	public Response getAllocation(@PathVariable Long budgetId, @PathVariable Long categoryId, @PathVariable Date periodStart, @PathVariable Date periodEnd ) {
+		return buildResponse(true, allocationService.getByPeriod(budgetId, categoryId, periodStart, periodEnd));
 	}
 	
 	@RequestMapping(method=RequestMethod.POST, value="/allocations")
-	public Allocation addAllocation(@PathVariable Long budgetId, @PathVariable Long categoryId, @RequestBody Allocation allocation) {
-		return allocationService.add(budgetId, categoryId, allocation);
+	public Response addAllocation(@PathVariable Long budgetId, @PathVariable Long categoryId, @RequestBody Allocation allocation) {
+		return buildResponse(true, allocationService.add(budgetId, categoryId, allocation));
 	}
 	
 	@RequestMapping(method=RequestMethod.PUT, value="/allocations/{allocationId}")
-	public Allocation updateAllocation(@PathVariable Long budgetId, @PathVariable Long categoryId, Long allocationId, @RequestBody Allocation allocation) {
-		return allocationService.update(budgetId, categoryId, allocationId, allocation);
+	public Response updateAllocation(@PathVariable Long budgetId, @PathVariable Long categoryId, Long allocationId, @RequestBody Allocation allocation) {
+		return buildResponse(true, allocationService.update(budgetId, categoryId, allocationId, allocation));
 	}
 	
 	@RequestMapping(method=RequestMethod.DELETE, value="/") 

@@ -1,6 +1,6 @@
 package com.mistymorning.housekeeper.controllers;
 
-import java.util.List;
+import javax.ws.rs.core.Response;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,29 +14,29 @@ import com.mistymorning.housekeeper.services.api.CategoryService;
 
 @RestController
 @RequestMapping("/budgets/{budgetId}")
-public class CategoryController {
+public class CategoryController extends AbstractController{
 	
 	@Autowired
 	private CategoryService categoryService;
 
 	@RequestMapping("/categories")
-	public List<Category> getAllCategories(@PathVariable Long budgetId) {
-		return categoryService.getAllCategories(budgetId);
+	public Response getAllCategories(@PathVariable Long budgetId) {
+		return buildResponse(true,categoryService.getAllCategories(budgetId));
 	}
 	
 	@RequestMapping("/categories/{id}")
-	public Category getCategory(@PathVariable Long budgetId, @PathVariable Long categoryId) {
-		return categoryService.getCategory(budgetId, categoryId);
+	public Response getCategory(@PathVariable Long budgetId, @PathVariable Long categoryId) {
+		return buildResponse(true,categoryService.getCategory(budgetId, categoryId));
 	}
 	
 	@RequestMapping(method=RequestMethod.POST, value="/categories")
-	public Category addCategory(@PathVariable Long budgetId, @RequestBody Category category) {
-		return categoryService.addCategory(budgetId, category);
+	public Response addCategory(@PathVariable Long budgetId, @RequestBody Category category) {
+		return buildResponse(true,categoryService.addCategory(budgetId, category));
 	}
 	
 	@RequestMapping(method=RequestMethod.PUT, value="/categories/{categoryId}")
-	public Category updateCategory(@PathVariable Long budgetId, @PathVariable Long categoryId, @RequestBody Category category) {
-		return categoryService.updateCategory(budgetId, categoryId, category);
+	public Response updateCategory(@PathVariable Long budgetId, @PathVariable Long categoryId, @RequestBody Category category) {
+		return buildResponse(true,categoryService.updateCategory(budgetId, categoryId, category));
 	}
 	
 	@RequestMapping(method=RequestMethod.DELETE, value="/categories/{categoryId}") 

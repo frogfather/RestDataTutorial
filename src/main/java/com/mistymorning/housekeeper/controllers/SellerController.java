@@ -1,6 +1,6 @@
 package com.mistymorning.housekeeper.controllers;
 
-import java.util.List;
+import javax.ws.rs.core.Response;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,29 +14,29 @@ import com.mistymorning.housekeeper.services.api.SellerService;
 
 @RestController
 @RequestMapping("/budgets/{budgetId}")
-public class SellerController {
+public class SellerController extends AbstractController {
 
 	@Autowired
 	private SellerService sellerService;
 	
 	@RequestMapping("/sellers")
-	public List<Seller> getAllAccounts(@PathVariable Long budgetId) {
-		return sellerService.getAllSellers(budgetId);
+	public Response getAllAccounts(@PathVariable Long budgetId) {
+		return buildResponse(true,sellerService.getAllSellers(budgetId));
 	}
 	
 	@RequestMapping("/sellers/{sellerId}")
-	public Seller getSeller(@PathVariable Long budgetId, @PathVariable Long sellerId) {
-		return sellerService.getSeller(budgetId, sellerId);
+	public Response getSeller(@PathVariable Long budgetId, @PathVariable Long sellerId) {
+		return buildResponse(true,sellerService.getSeller(budgetId, sellerId));
 	}
 	
 	@RequestMapping(method=RequestMethod.POST, value="/sellers")
-	public Seller addSeller(@PathVariable Long budgetId, @RequestBody Seller seller) {
-		return sellerService.addSeller(budgetId, seller);
+	public Response addSeller(@PathVariable Long budgetId, @RequestBody Seller seller) {
+		return buildResponse(true,sellerService.addSeller(budgetId, seller));
 	}
 	
 	@RequestMapping(method=RequestMethod.PUT, value="/sellers/{sellerId}")
-	public Seller updateSeller(@PathVariable Long budgetId, @PathVariable Long sellerId, @RequestBody Seller seller) {
-		return sellerService.updateSeller(budgetId, sellerId, seller);
+	public Response updateSeller(@PathVariable Long budgetId, @PathVariable Long sellerId, @RequestBody Seller seller) {
+		return buildResponse(true,sellerService.updateSeller(budgetId, sellerId, seller));
 	}
 	
 	@RequestMapping(method=RequestMethod.DELETE, value="/sellers/{sellerId}") 

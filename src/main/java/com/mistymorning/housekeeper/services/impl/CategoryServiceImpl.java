@@ -37,15 +37,16 @@ public class CategoryServiceImpl implements CategoryService{
 	@Override
 	public Category addCategory(Long budgetId, Category category) {
 		Optional<Budget> budget = budgetRepository.findById(budgetId);
-		if (budget == null) {
+		Long parentCategoryId = category.getCategoryGroup().longValue();
+		Category parentCategory = this.getCategory(budgetId, parentCategoryId);
+		if (budget == null || (parentCategoryId != -1 && parentCategory == null)) {
 			//TODO Throw an error here
 			return null;
-		}else {
+		}
 			category.setBudget(budget.get());
 			this.categoryRepository.save(category);
 			return category;
-		}
-	
+		
 	}
 
 	@Override

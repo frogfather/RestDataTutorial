@@ -1,6 +1,6 @@
 package com.mistymorning.housekeeper.controllers;
 
-import java.util.List;
+import javax.ws.rs.core.Response;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,29 +14,29 @@ import com.mistymorning.housekeeper.services.api.TransactionService;
 
 @RestController
 @RequestMapping("/transactions")
-public class TransactionController {
+public class TransactionController extends AbstractController{
 
 	@Autowired
 	private TransactionService transactionService;
 	
 	@RequestMapping("/")
-	public List<Transaction> all() {
-		return transactionService.getAll();
+	public Response all() {
+		return buildResponse(true,transactionService.getAll());
 	}
 	
 	@RequestMapping("/{id}")
-	public Transaction getAccount(@PathVariable Long id) {
-		return transactionService.getTransaction(id);
+	public Response getAccount(@PathVariable Long id) {
+		return buildResponse(true,transactionService.getTransaction(id));
 	}
 	
 	@RequestMapping(method=RequestMethod.POST, value="/")
-	public Transaction addTransaction(@RequestBody Transaction transaction) {
-		return transactionService.addTransaction(transaction);
+	public Response addTransaction(@RequestBody Transaction transaction) {
+		return buildResponse(true,transactionService.addTransaction(transaction));
 	}
 	
 	@RequestMapping(method=RequestMethod.PUT, value="/{transactionId}")
-	public Transaction updateTransaction(@PathVariable Long transactionId, @RequestBody Transaction transaction) {
-		return transactionService.updateTransaction(transactionId, transaction);
+	public Response updateTransaction(@PathVariable Long transactionId, @RequestBody Transaction transaction) {
+		return buildResponse(true,transactionService.updateTransaction(transactionId, transaction));
 	}
 	
 	@RequestMapping(method=RequestMethod.DELETE, value="/{transactionId}")
