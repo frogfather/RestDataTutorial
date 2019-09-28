@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class RestApiDataApplication {
 
 	public static void main(String[] args) {
+		System.setProperty("server.servlet.context-path", "/rest/v1");
 		SpringApplication.run(RestApiDataApplication.class, args);
 	}
 
