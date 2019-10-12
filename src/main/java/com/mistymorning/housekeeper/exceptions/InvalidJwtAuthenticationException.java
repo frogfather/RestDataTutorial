@@ -1,4 +1,4 @@
-package com.mistymorning.housekeeper.security;
+package com.mistymorning.housekeeper.exceptions;
 
 import org.springframework.security.core.AuthenticationException;
 
