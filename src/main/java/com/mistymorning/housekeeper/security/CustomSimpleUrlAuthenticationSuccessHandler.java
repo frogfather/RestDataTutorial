@@ -12,7 +12,6 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import org.springframework.stereotype.Component;
 
 import com.mistymorning.housekeeper.classes.User;
-import com.mistymorning.housekeeper.services.impl.DeviceService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -28,9 +27,6 @@ public class CustomSimpleUrlAuthenticationSuccessHandler implements Authenticati
 
     @Autowired
     ActiveUserStore activeUserStore;
-
-    @Autowired
-    private DeviceService deviceService;
 
     @Override
     public void onAuthenticationSuccess(final HttpServletRequest request, final HttpServletResponse response, final Authentication authentication) throws IOException {
@@ -50,21 +46,8 @@ public class CustomSimpleUrlAuthenticationSuccessHandler implements Authenticati
             session.setAttribute("user", user);
         }
         clearAuthenticationAttributes(request);
-
-        loginNotification(authentication, request);
     }
 
-    private void loginNotification(Authentication authentication, HttpServletRequest request) {
-        try {
-            if (authentication.getPrincipal() instanceof User) {
-                deviceService.verifyDevice(((User)authentication.getPrincipal()), request);
-            }
-        } catch (Exception e) {
-            logger.error("An error occurred while verifying device or location", e);
-            throw new RuntimeException(e);
-        }
-
-    }
 
     protected void handle(final HttpServletRequest request, final HttpServletResponse response, final Authentication authentication) throws IOException {
         final String targetUrl = determineTargetUrl(authentication);
