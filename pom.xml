@@ -19,7 +19,6 @@
 		<aerogear.version>1.0.0</aerogear.version>
 		<passay.version>1.0</passay.version>
 		<guava.version>20.0</guava.version>
-        <logstash-logback-encoder.version>4.8</logstash-logback-encoder.version>
         <uap-java.version>1.4.0</uap-java.version>
         <geoip2.version>2.12.0</geoip2.version>
 		
@@ -110,6 +109,11 @@
             <version>${geoip2.version}</version>
         </dependency>
 
+		<!-- logging -->
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+			</dependency>
 		<!-- test -->
 
         <dependency>
