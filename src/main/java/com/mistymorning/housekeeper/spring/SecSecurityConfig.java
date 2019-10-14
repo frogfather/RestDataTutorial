@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -28,7 +29,7 @@ import com.mistymorning.housekeeper.security.google2fa.CustomAuthenticationProvi
 import com.mistymorning.housekeeper.security.google2fa.CustomWebAuthenticationDetailsSource;
 
 @Configuration
-@ComponentScan(basePackages = { "org.baeldung.security" })
+@ComponentScan(basePackages = { "com.mistymorning.housekeeper.security" })
 // @ImportResource({ "classpath:webSecurityConfig.xml" })
 @EnableWebSecurity
 public class SecSecurityConfig extends WebSecurityConfigurerAdapter {
@@ -75,6 +76,8 @@ public class SecSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
         // @formatter:off
+    	// eventually our session management should be:
+    	// .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         http
             .csrf().disable()
             .authorizeRequests()
