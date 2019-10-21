@@ -2,12 +2,15 @@ package com.mistymorning.housekeeper.events;
 
 import java.util.Locale;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationEvent;
 
 import com.mistymorning.housekeeper.classes.User;
 
 @SuppressWarnings("serial")
 public class OnRegistrationCompleteEvent extends ApplicationEvent {
+	private final Logger LOG = LoggerFactory.getLogger(getClass());
 
     private final String appUrl;
     private final Locale locale;
@@ -15,6 +18,7 @@ public class OnRegistrationCompleteEvent extends ApplicationEvent {
 
     public OnRegistrationCompleteEvent(final User user, final Locale locale, final String appUrl) {
         super(user);
+        LOG.debug("Creating new OnRegistrationCompleteEvent for user {}",user.getEmail());
         this.user = user;
         this.locale = locale;
         this.appUrl = appUrl;

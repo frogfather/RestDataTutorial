@@ -39,13 +39,14 @@ import com.mistymorning.housekeeper.classes.UserDto;
 import com.mistymorning.housekeeper.classes.VerificationToken;
 import com.mistymorning.housekeeper.events.OnRegistrationCompleteEvent;
 import com.mistymorning.housekeeper.exceptions.InvalidOldPasswordException;
+import com.mistymorning.housekeeper.listeners.*;
 import com.mistymorning.housekeeper.services.api.UserSecurityService;
 import com.mistymorning.housekeeper.services.api.UserService;
 import com.mistymorning.housekeeper.utilities.GenericResponse;
 
 @Controller
 public class RegistrationController {
-    private final Logger LOGGER = LoggerFactory.getLogger(getClass());
+    private final Logger LOG = LoggerFactory.getLogger(getClass());
 
     @Autowired
     private UserService userService;
@@ -77,10 +78,11 @@ public class RegistrationController {
     @RequestMapping(value = "/user/registration", method = RequestMethod.POST)
     @ResponseBody
     public GenericResponse registerUserAccount(@Valid final UserDto accountDto, final HttpServletRequest request) {
-        LOGGER.debug("Registering user account with information: {}", accountDto);
-
+        LOG.debug("Registering user account with information: {}", accountDto);
         final User registered = userService.registerNewUserAccount(accountDto);
-        eventPublisher.publishEvent(new OnRegistrationCompleteEvent(registered, request.getLocale(), getAppUrl(request)));
+        OnRegistrationCompleteEvent onRegistrationCompleteEvent = new OnRegistrationCompleteEvent(registered, request.getLocale(), getAppUrl(request));
+        LOG.debug("New onRegistrationComplete event created "+onRegistrationCompleteEvent.getUser().getEmail());
+        eventPublisher.publishEvent(onRegistrationCompleteEvent);
         return new GenericResponse("success");
     }
 
@@ -200,7 +202,7 @@ public class RegistrationController {
         try {
             request.login(username, password);
         } catch (ServletException e) {
-            LOGGER.error("Error while login ", e);
+            LOG.error("Error while login ", e);
         }
     }
 
