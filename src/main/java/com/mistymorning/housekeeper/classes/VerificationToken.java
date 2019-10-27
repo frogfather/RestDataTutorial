@@ -5,9 +5,11 @@ import java.util.Date;
 
 import javax.persistence.*;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @Entity
 public class VerificationToken {
-
     private static final int EXPIRATION = 60 * 24;
 
     @Id

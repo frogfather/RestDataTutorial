@@ -36,7 +36,7 @@ public class RegistrationListener implements ApplicationListener<OnRegistrationC
 
     @Override
     public void onApplicationEvent(final OnRegistrationCompleteEvent event) {
-    	LOG.debug("Registration Listener in listeners package detected OnRegistrationCompleteEvent");
+    	LOG.debug("Registration Listener detected OnRegistrationCompleteEvent");
         this.confirmRegistration(event);
     }
 

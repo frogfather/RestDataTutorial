@@ -7,6 +7,8 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -25,6 +27,8 @@ import io.jsonwebtoken.SignatureAlgorithm;
 
 @Component
 public class JwtTokenProvider {
+    private final Logger LOG = LoggerFactory.getLogger(getClass());
+
     @Value("${security.jwt.token.secret-key:secret}")
     private String secretKey = "secret";
     @Value("${security.jwt.token.expire-length:3600000}")
@@ -36,6 +40,7 @@ public class JwtTokenProvider {
         secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
     }
     public String createToken(String username, List<String> roles) {
+    	LOG.debug("JWT Token provider: create token");
         Claims claims = Jwts.claims().setSubject(username);
         claims.put("roles", roles);
         Date now = new Date(validityInMilliseconds);
@@ -48,13 +53,16 @@ public class JwtTokenProvider {
             .compact();
     }
     public Authentication getAuthentication(String token) {
+    	LOG.debug("JWT Token provider - get authentication");
         UserDetails userDetails = this.userDetailsService.loadUserByUsername(getUsername(token));
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }
     public String getUsername(String token) {
+    	LOG.debug("JWT Token provider - get username");
         return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();
     }
     public String resolveToken(HttpServletRequest req) {
+    	LOG.debug("JWT Token provider - resolve token");
         String bearerToken = req.getHeader("Authorization");
         if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
             return bearerToken.substring(7, bearerToken.length());
@@ -62,6 +70,7 @@ public class JwtTokenProvider {
         return null;
     }
     public boolean validateToken(String token) {
+    	LOG.debug("JWT Token provider - validate token");
         try {
             Jws<Claims> claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
             if (claims.getBody().getExpiration().before(new Date(validityInMilliseconds))) {

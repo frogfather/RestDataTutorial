@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.DefaultRedirectStrategy;
@@ -18,6 +20,7 @@ import com.mistymorning.housekeeper.classes.User;
 
 //@Component("customAuthenticationSuccessHandler")
 public class CustomLoginAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
+	private final Logger LOG = LoggerFactory.getLogger(getClass());
 
     private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
@@ -26,7 +29,8 @@ public class CustomLoginAuthenticationSuccessHandler implements AuthenticationSu
 
     @Override
     public void onAuthenticationSuccess(final HttpServletRequest request, final HttpServletResponse response, final Authentication authentication) throws IOException {
-        addWelcomeCookie(gerUserName(authentication), response);
+        LOG.debug("CustomLoginAuthenticationSuccessHandler: onAuthenticationSuccess method called");
+    	addWelcomeCookie(getUserName(authentication), response);
         redirectStrategy.sendRedirect(request, response, "/homepage.html?user=" + authentication.getName());
 
         final HttpSession session = request.getSession(false);
@@ -46,22 +50,26 @@ public class CustomLoginAuthenticationSuccessHandler implements AuthenticationSu
         clearAuthenticationAttributes(request);
     }
 
-    private String gerUserName(final Authentication authentication) {
+    private String getUserName(final Authentication authentication) {
+    	LOG.debug("CustomLoginAuthenticationSuccessHandler - getUserName called");
         return ((User) authentication.getPrincipal()).getFirstName();
     }
 
     private void addWelcomeCookie(final String user, final HttpServletResponse response) {
+    	LOG.debug("CustomLoginAuthenticationSuccessHandler - addWelcomeCookie called");
         Cookie welcomeCookie = getWelcomeCookie(user);
         response.addCookie(welcomeCookie);
     }
 
     private Cookie getWelcomeCookie(final String user) {
+    	LOG.debug("CustomLoginAuthenticationSuccessHandler getWelcomeCookie called");
         Cookie welcomeCookie = new Cookie("welcome", user);
         welcomeCookie.setMaxAge(60 * 60 * 24 * 30); // 30 days
         return welcomeCookie;
     }
 
     protected void clearAuthenticationAttributes(final HttpServletRequest request) {
+    	LOG.debug("CustomLoginAuthenticationSuccessHandler clear authentication attributes");
         final HttpSession session = request.getSession(false);
         if (session == null) {
             return;
@@ -70,10 +78,12 @@ public class CustomLoginAuthenticationSuccessHandler implements AuthenticationSu
     }
 
     public void setRedirectStrategy(final RedirectStrategy redirectStrategy) {
+    	LOG.debug("CustomLoginAuthenticationSuccessHandler set redirect strategy");
         this.redirectStrategy = redirectStrategy;
     }
 
     protected RedirectStrategy getRedirectStrategy() {
+    	LOG.debug("CustomLoginAuthenticationSuccessHandler get redirect strategy");
         return redirectStrategy;
     }
 }

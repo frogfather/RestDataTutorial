@@ -14,11 +14,12 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 import org.jboss.aerogear.security.otp.api.Base32;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Entity
 @Table(name = "user_account")
 public class User {
-
     @Id
     @Column(unique = true, nullable = false)
     @GeneratedValue(strategy = GenerationType.AUTO)

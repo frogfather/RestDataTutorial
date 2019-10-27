@@ -21,7 +21,7 @@ import java.util.Collection;
 
 @Component("customAuthenticationSuccessHandler")
 public class CustomSimpleUrlAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
-    private final Logger logger = LoggerFactory.getLogger(getClass());
+    private final Logger LOG = LoggerFactory.getLogger(getClass());
 
     private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
@@ -30,16 +30,20 @@ public class CustomSimpleUrlAuthenticationSuccessHandler implements Authenticati
 
     @Override
     public void onAuthenticationSuccess(final HttpServletRequest request, final HttpServletResponse response, final Authentication authentication) throws IOException {
-        handle(request, response, authentication);
+        LOG.debug("CustomSimpleUrlAuthenticationSuccessHandler: onAuthenticationSuccess - getting session");
+    	handle(request, response, authentication);
         final HttpSession session = request.getSession(false);
         if (session != null) {
+        	LOG.debug("CustomSimpleUrlAuthenticationSuccessHandler: onAuthenticationSuccess - setting max inactive interval");
             session.setMaxInactiveInterval(30 * 60);
-
+            
             String username;
             if (authentication.getPrincipal() instanceof User) {
+            	LOG.debug("CustomSimpleUrlAuthenticationSuccessHandler: onAuthenticationSuccess - get authentication principal email as username");
             	username = ((User)authentication.getPrincipal()).getEmail();
             }
             else {
+            	LOG.debug("CustomSimpleUrlAuthenticationSuccessHandler: onAuthenticationSuccess - get authentication name as username ");
             	username = authentication.getName();
             }
             LoggedUser user = new LoggedUser(username, activeUserStore);
@@ -51,9 +55,9 @@ public class CustomSimpleUrlAuthenticationSuccessHandler implements Authenticati
 
     protected void handle(final HttpServletRequest request, final HttpServletResponse response, final Authentication authentication) throws IOException {
         final String targetUrl = determineTargetUrl(authentication);
-
+        LOG.debug("CustomSimpleUrlAuthenticationSuccessHandler: handle http response");
         if (response.isCommitted()) {
-            logger.debug("Response has already been committed. Unable to redirect to " + targetUrl);
+            LOG.debug("Response has already been committed. Unable to redirect to " + targetUrl);
             return;
         }
         redirectStrategy.sendRedirect(request, response, targetUrl);
@@ -63,6 +67,7 @@ public class CustomSimpleUrlAuthenticationSuccessHandler implements Authenticati
         boolean isUser = false;
         boolean isAdmin = false;
         final Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
+        LOG.debug("CustomSimpleUrlAuthenticationSuccessHandler: determine target url");
         for (final GrantedAuthority grantedAuthority : authorities) {
             if (grantedAuthority.getAuthority().equals("READ_PRIVILEGE")) {
                 isUser = true;
@@ -90,6 +95,7 @@ public class CustomSimpleUrlAuthenticationSuccessHandler implements Authenticati
     }
 
     protected void clearAuthenticationAttributes(final HttpServletRequest request) {
+    	LOG.debug("CustomSimpleUrlAuthenticationSuccessHandler: clear authentication attributes");
         final HttpSession session = request.getSession(false);
         if (session == null) {
             return;
