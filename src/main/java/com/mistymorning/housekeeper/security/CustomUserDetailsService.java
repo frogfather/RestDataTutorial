@@ -6,6 +6,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -23,6 +25,7 @@ import com.mistymorning.housekeeper.repository.UserRepository;
 @Service("userDetailsService")
 @Transactional
 public class CustomUserDetailsService implements UserDetailsService {
+    private final Logger LOG = LoggerFactory.getLogger(getClass());
 
     @Autowired
     private UserRepository userRepository;
@@ -42,6 +45,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(final String email) throws UsernameNotFoundException {
         final String ip = getClientIP();
+        LOG.debug("User details service: load user by username");
         if (loginAttemptService.isBlocked(ip)) {
             throw new RuntimeException("blocked");
         }
@@ -61,10 +65,12 @@ public class CustomUserDetailsService implements UserDetailsService {
     // UTIL
 
     private final Collection<? extends GrantedAuthority> getAuthorities(final Collection<Role> roles) {
+    	LOG.debug("User details service: get authorities");
         return getGrantedAuthorities(getPrivileges(roles));
     }
 
     private final List<String> getPrivileges(final Collection<Role> roles) {
+    	LOG.debug("User details service: get privileges");
         final List<String> privileges = new ArrayList<String>();
         final List<Privilege> collection = new ArrayList<Privilege>();
         for (final Role role : roles) {
@@ -78,6 +84,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     }
 
     private final List<GrantedAuthority> getGrantedAuthorities(final List<String> privileges) {
+    	LOG.debug("User details service: get granted authorities");
         final List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
         for (final String privilege : privileges) {
             authorities.add(new SimpleGrantedAuthority(privilege));
@@ -86,6 +93,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     }
 
     private final String getClientIP() {
+    	LOG.debug("User details service: get client IP");
         final String xfHeader = request.getHeader("X-Forwarded-For");
         if (xfHeader == null) {
             return request.getRemoteAddr();

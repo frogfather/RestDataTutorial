@@ -11,6 +11,8 @@ import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -33,6 +35,8 @@ import com.mistymorning.housekeeper.services.api.UserService;
 @Service
 @Transactional
 public class UserServiceImpl implements UserService {
+	
+	private final Logger LOGGER = LoggerFactory.getLogger(getClass());
 
     @Autowired
     private UserRepository userRepository;
@@ -66,6 +70,7 @@ public class UserServiceImpl implements UserService {
         if (emailExists(accountDto.getEmail())) {
             throw new UserAlreadyExistException("There is an account with that email adress: " + accountDto.getEmail());
         }
+        LOGGER.debug("Registering new user {}",accountDto.getEmail());
         final User user = new User();
 
         user.setFirstName(accountDto.getFirstName());
@@ -81,6 +86,7 @@ public class UserServiceImpl implements UserService {
     public User getUser(final String verificationToken) {
         final VerificationToken token = tokenRepository.findByToken(verificationToken);
         if (token != null) {
+        	LOGGER.debug("Verification token found for {}", token.getUser().getEmail());
             return token.getUser();
         }
         return null;
@@ -93,6 +99,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void saveRegisteredUser(final User user) {
+    	LOGGER.debug("Saving registered user {}", user.getEmail());
         userRepository.save(user);
     }
 
@@ -101,21 +108,24 @@ public class UserServiceImpl implements UserService {
         final VerificationToken verificationToken = tokenRepository.findByUser(user);
 
         if (verificationToken != null) {
+        	LOGGER.debug("Deleting verification token for user "+user.getEmail());
             tokenRepository.delete(verificationToken);
         }
 
         final PasswordResetToken passwordToken = passwordTokenRepository.findByUser(user);
 
         if (passwordToken != null) {
+        	LOGGER.debug("Deleting password reset token for user "+user.getEmail());
             passwordTokenRepository.delete(passwordToken);
         }
-
+        
         userRepository.delete(user);
     }
 
     @Override
     public void createVerificationTokenForUser(final User user, final String token) {
         final VerificationToken myToken = new VerificationToken(token, user);
+        LOGGER.debug("Creating new verification token for user "+user.getEmail());
         tokenRepository.save(myToken);
     }
 
@@ -125,12 +135,14 @@ public class UserServiceImpl implements UserService {
         vToken.updateToken(UUID.randomUUID()
             .toString());
         vToken = tokenRepository.save(vToken);
+        LOGGER.debug("Updating expired verification token for user "+vToken.getUser().getEmail());
         return vToken;
     }
 
     @Override
     public void createPasswordResetTokenForUser(final User user, final String token) {
         final PasswordResetToken myToken = new PasswordResetToken(token, user);
+        LOGGER.debug("Creating new password reset token for user "+user.getEmail());
         passwordTokenRepository.save(myToken);
     }
 
@@ -158,6 +170,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void changeUserPassword(final User user, final String password) {
         user.setPassword(passwordEncoder.encode(password));
+        LOGGER.debug("Updating password for user "+user.getEmail());
         userRepository.save(user);
     }
 
@@ -168,18 +181,22 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public String validateVerificationToken(String token) {
+    	LOGGER.debug("Validating verification token");
         final VerificationToken verificationToken = tokenRepository.findByToken(token);
         if (verificationToken == null) {
+        	LOGGER.debug("Verification token is not valid");
             return TOKEN_INVALID;
         }
-
+        
         final User user = verificationToken.getUser();
+        LOGGER.debug("Verification token for user {} found, checking validity",user.getEmail());
         final Calendar cal = Calendar.getInstance();
         if ((verificationToken.getExpiryDate()
             .getTime()
             - cal.getTime()
                 .getTime()) <= 0) {
             tokenRepository.delete(verificationToken);
+            LOGGER.debug("Verification token for user {} expired",user.getEmail());
             return TOKEN_EXPIRED;
         }
 

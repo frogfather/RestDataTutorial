@@ -5,6 +5,8 @@ import java.util.Date;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationDetailsSource;
 import org.springframework.security.authentication.RememberMeAuthenticationToken;
@@ -23,6 +25,7 @@ import com.mistymorning.housekeeper.classes.User;
 import com.mistymorning.housekeeper.repository.UserRepository;
 
 public class CustomRememberMeServices extends PersistentTokenBasedRememberMeServices {
+	private final Logger LOG = LoggerFactory.getLogger(getClass());
 
     @Autowired
     private UserRepository userRepository;
@@ -33,13 +36,14 @@ public class CustomRememberMeServices extends PersistentTokenBasedRememberMeServ
     private String key;
 
     public CustomRememberMeServices(String key, UserDetailsService userDetailsService, PersistentTokenRepository tokenRepository) {
-        super(key, userDetailsService, tokenRepository);
+    	super(key, userDetailsService, tokenRepository);
         this.tokenRepository = tokenRepository;
         this.key = key;
     }
 
     @Override
     protected void onLoginSuccess(HttpServletRequest request, HttpServletResponse response, Authentication successfulAuthentication) {
+    	LOG.debug("Custom RememberMe Services- onLoginSuccess");
         String username = ((User) successfulAuthentication.getPrincipal()).getEmail();
         logger.debug("Creating new persistent login for user " + username);
         PersistentRememberMeToken persistentToken = new PersistentRememberMeToken(username, generateSeriesData(), generateTokenData(), new Date());
@@ -53,13 +57,15 @@ public class CustomRememberMeServices extends PersistentTokenBasedRememberMeServ
 
     @Override
     protected Authentication createSuccessfulAuthentication(HttpServletRequest request, UserDetails user) {
-        User auser = userRepository.findByEmail(user.getUsername());
+    	LOG.debug("Custom RememberMe Services- createSuccessfulAuthentication");
+    	User auser = userRepository.findByEmail(user.getUsername());
         RememberMeAuthenticationToken auth = new RememberMeAuthenticationToken(key, auser, authoritiesMapper.mapAuthorities(user.getAuthorities()));
         auth.setDetails(authenticationDetailsSource.buildDetails(request));
         return auth;
     }
 
     private void addCookie(PersistentRememberMeToken token, HttpServletRequest request, HttpServletResponse response) {
-        setCookie(new String[] { token.getSeries(), token.getTokenValue() }, getTokenValiditySeconds(), request, response);
+    	LOG.debug("Custom RememberMe Services- set cookie");
+    	setCookie(new String[] { token.getSeries(), token.getTokenValue() }, getTokenValiditySeconds(), request, response);
     }
 }

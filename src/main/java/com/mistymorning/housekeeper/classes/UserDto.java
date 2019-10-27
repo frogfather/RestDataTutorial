@@ -3,10 +3,6 @@ package com.mistymorning.housekeeper.classes;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-//import org.baeldung.validation.PasswordMatches;
-//import org.baeldung.validation.ValidEmail;
-//import org.baeldung.validation.ValidPassword;
-
 //@PasswordMatches
 public class UserDto {
     @NotNull

@@ -9,7 +9,7 @@
         </layout>
     </appender>
 
-    <logger name="com.mistymorning" level="info" additivity="false">
+    <logger name="com.mistymorning" level="debug" additivity="false">
         <appender-ref ref="CONSOLE"/>
     </logger>
 
