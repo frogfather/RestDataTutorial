@@ -16,7 +16,7 @@ public interface TransactionService {
 	
 	public Transaction getTransaction(Long transactionId);
 	
-	public Transaction addTransaction(Transaction transaction);
+	public List<Transaction> addTransactions(List<Transaction> transactions);
 	
 	public Transaction updateTransaction(Long t, Transaction transaction);
 	

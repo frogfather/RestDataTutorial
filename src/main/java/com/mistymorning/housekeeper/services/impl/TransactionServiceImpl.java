@@ -49,9 +49,11 @@ public class TransactionServiceImpl implements TransactionService{
 	}
 
 	@Override
-	public Transaction addTransaction(Transaction transaction) {
-		this.transactionRepository.save(transaction);
-		return transaction;
+	public List<Transaction> addTransactions(List<Transaction> transactions) {
+		transactions.forEach(transaction -> {
+			this.transactionRepository.save(transaction);
+		});
+		return transactions;
 	}
 
 	@Override
