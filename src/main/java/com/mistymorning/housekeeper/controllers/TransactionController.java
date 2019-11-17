@@ -1,5 +1,7 @@
 package com.mistymorning.housekeeper.controllers;
 
+import java.util.List;
+
 import javax.ws.rs.core.Response;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,8 +32,9 @@ public class TransactionController extends AbstractController{
 	}
 	
 	@RequestMapping(method=RequestMethod.POST, value="/")
-	public Response addTransaction(@RequestBody Transaction transaction) {
-		return buildResponse(true,transactionService.addTransaction(transaction));
+	public Response addTransactions(@RequestBody List<Transaction> transactions) {
+		//TODO check that transactions supplied sum to zero and throw error if they don't
+		return buildResponse(true,transactionService.addTransactions(transactions));
 	}
 	
 	@RequestMapping(method=RequestMethod.PUT, value="/{transactionId}")

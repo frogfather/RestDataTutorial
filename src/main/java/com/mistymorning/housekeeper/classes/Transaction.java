@@ -2,23 +2,31 @@ package com.mistymorning.housekeeper.classes;
 
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.GenericGenerator;
+
 @Entity(name = "Transaction")
 @Table(name = "transaction")
 public class Transaction {
 	
+	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
+	@GeneratedValue(generator = "UUID")
+	@GenericGenerator(
+		name = "UUID",
+		strategy = "org.hibernate.id.UUIDGenerator"
+	)
+	@Column(name = "id", updatable = false, nullable = false)
+	private UUID id;	
 	private Date date;
 	private String note;
 	@Column(precision=10, scale=2)
@@ -41,7 +49,7 @@ public class Transaction {
 		
 	}
 	
-	public Transaction(Long id, Date date, String note, Double amount, Long accountId, Long categoryId, Long sellerId, Long budgetId) {
+	public Transaction(UUID id, Date date, String note, Double amount, Long accountId, Long categoryId, Long sellerId, Long budgetId) {
 		this.id = id;
 		this.date = date;
 		this.note = note;
@@ -54,7 +62,7 @@ public class Transaction {
 		this.seller = new Seller(sellerId, "", "", 0.0, 0.0, budgetId);
 	}
 	
-	public Long getId() {
+	public UUID getId() {
 		return id;
 	}
 
