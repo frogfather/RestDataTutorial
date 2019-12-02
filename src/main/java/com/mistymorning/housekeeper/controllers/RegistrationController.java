@@ -28,6 +28,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -79,7 +80,7 @@ public class RegistrationController {
 
     @RequestMapping(value = "/user/registration", method = RequestMethod.POST)
     @ResponseBody
-    public GenericResponse registerUserAccount(@Valid final UserDto accountDto, final HttpServletRequest request) {
+    public GenericResponse registerUserAccount(@RequestBody  UserDto accountDto, final HttpServletRequest request) {
         LOG.debug("User Registration - POST: Registering user account with new information");
         final User registered = userService.registerNewUserAccount(accountDto);
         OnRegistrationCompleteEvent onRegistrationCompleteEvent = new OnRegistrationCompleteEvent(registered, request.getLocale(), getAppUrl(request));
@@ -88,6 +89,8 @@ public class RegistrationController {
         return new GenericResponse("success");
     }
 
+    //this is called in response to clicking the email link so there's little point redirecting. 
+    // Maybe send another email saying registration successful?
     @RequestMapping(value = "/registrationConfirm", method = RequestMethod.GET)
     public String confirmRegistration(final HttpServletRequest request, final Model model, @RequestParam("token") final String token) throws UnsupportedEncodingException {
         Locale locale = request.getLocale();
@@ -96,19 +99,16 @@ public class RegistrationController {
         if (result.equals("valid")) {
         	LOG.debug("Registration confirm - GET: registration successful");
             final User user = userService.getUser(token);
-            // if (user.isUsing2FA()) {
-            // model.addAttribute("qr", userService.generateQRUrl(user));
-            // return "redirect:/qrcode.html?lang=" + locale.getLanguage();
-            // }
+            LOG.debug("User retrieved from token is "+user.getEmail());
             authWithoutPassword(user);
             model.addAttribute("message", messages.getMessage("message.accountVerified", null, locale));
-            return "redirect:/console.html?lang=" + locale.getLanguage();
+            return "Successful";
         }
         LOG.debug("Registration confirm - GET: registration was not successful");
         model.addAttribute("message", messages.getMessage("auth.message." + result, null, locale));
         model.addAttribute("expired", "expired".equals(result));
         model.addAttribute("token", token);
-        return "redirect:/badUser.html?lang=" + locale.getLanguage();
+        return "Unsuccessful";
     }
 
     // user activation - verification
