@@ -2,7 +2,6 @@ package com.mistymorning.housekeeper.security;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.DefaultRedirectStrategy;
@@ -23,7 +22,7 @@ import java.util.Collection;
 public class CustomSimpleUrlAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
     private final Logger LOG = LoggerFactory.getLogger(getClass());
 
-    private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
+     private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
     @Override
     public void onAuthenticationSuccess(final HttpServletRequest request, final HttpServletResponse response, final Authentication authentication) throws IOException {

@@ -53,8 +53,6 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private RoleRepository roleRepository;
 
-    @Autowired
-    private SessionRegistry sessionRegistry;
 
     public static final String TOKEN_INVALID = "invalidToken";
     public static final String TOKEN_EXPIRED = "expired";
@@ -228,21 +226,11 @@ public class UserServiceImpl implements UserService {
         return userRepository.findByEmail(email) != null;
     }
 
-    @Override
-    public List<String> getUsersFromSessionRegistry() {
-        return sessionRegistry.getAllPrincipals()
-            .stream()
-            .filter((u) -> !sessionRegistry.getAllSessions(u, false)
-                .isEmpty())
-            .map(o -> {
-                if (o instanceof User) {
-                    return ((User) o).getEmail();
-                } else {
-                    return o.toString();
-                }
-            })
-            .collect(Collectors.toList());
+	@Override
+	public List<String> getUsersFromSessionRegistry() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-    }
 
 }
