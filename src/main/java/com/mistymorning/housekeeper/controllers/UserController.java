@@ -10,7 +10,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.mistymorning.housekeeper.security.ActiveUserStore;
 import com.mistymorning.housekeeper.services.api.UserService;
 
 @Controller
@@ -18,17 +17,7 @@ public class UserController {
     private final Logger LOG = LoggerFactory.getLogger(getClass());
 
     @Autowired
-    ActiveUserStore activeUserStore;
-
-    @Autowired
     UserService userService;
-
-    @RequestMapping(value = "/loggedUsers", method = RequestMethod.GET)
-    public String getLoggedUsers(final Locale locale, final Model model) {
-    	LOG.debug("User controller - GET: logged users");
-        model.addAttribute("users", activeUserStore.getUsers());
-        return "users";
-    }
 
     @RequestMapping(value = "/loggedUsersFromSessionRegistry", method = RequestMethod.GET)
     public String getLoggedUsersFromSessionRegistry(final Locale locale, final Model model) {

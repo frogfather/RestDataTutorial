@@ -25,31 +25,9 @@ public class CustomSimpleUrlAuthenticationSuccessHandler implements Authenticati
 
     private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
-    @Autowired
-    ActiveUserStore activeUserStore;
-
     @Override
     public void onAuthenticationSuccess(final HttpServletRequest request, final HttpServletResponse response, final Authentication authentication) throws IOException {
-        LOG.debug("CustomSimpleUrlAuthenticationSuccessHandler: onAuthenticationSuccess - getting session");
-    	handle(request, response, authentication);
-        final HttpSession session = request.getSession(false);
-        if (session != null) {
-        	LOG.debug("CustomSimpleUrlAuthenticationSuccessHandler: onAuthenticationSuccess - setting max inactive interval");
-            session.setMaxInactiveInterval(30 * 60);
-            
-            String username;
-            if (authentication.getPrincipal() instanceof User) {
-            	LOG.debug("CustomSimpleUrlAuthenticationSuccessHandler: onAuthenticationSuccess - get authentication principal email as username");
-            	username = ((User)authentication.getPrincipal()).getEmail();
-            }
-            else {
-            	LOG.debug("CustomSimpleUrlAuthenticationSuccessHandler: onAuthenticationSuccess - get authentication name as username ");
-            	username = authentication.getName();
-            }
-            LoggedUser user = new LoggedUser(username, activeUserStore);
-            session.setAttribute("user", user);
-        }
-        clearAuthenticationAttributes(request);
+    	//this will disappear
     }
 
 
