@@ -146,9 +146,9 @@ public class RegistrationController {
         if (result != null) {
             LOG.debug("User change password - GET: token valid");
             model.addAttribute("message", messages.getMessage("auth.message." + result, null, locale));
-            return "redirect:/login?lang=" + locale.getLanguage();
+            return "remove ChangePassword page";
         }
-        return "redirect:/updatePassword.html?lang=" + locale.getLanguage();
+        return "Remove update password page";
     }
 
     @RequestMapping(value = "/user/savePassword", method = RequestMethod.POST)
@@ -171,17 +171,6 @@ public class RegistrationController {
         }
         userService.changeUserPassword(user, passwordDto.getNewPassword());
         return new GenericResponse(messages.getMessage("message.updatePasswordSuc", null, locale));
-    }
-
-    @RequestMapping(value = "/user/update/2fa", method = RequestMethod.POST)
-    @ResponseBody
-    public GenericResponse modifyUser2FA(@RequestParam("use2FA") final boolean use2FA) throws UnsupportedEncodingException {
-        LOG.debug("User update 2fa - POST: checking user");
-    	final User user = userService.updateUser2FA(use2FA);
-        if (use2FA) {
-            return new GenericResponse(userService.generateQRUrl(user));
-        }
-        return null;
     }
 
     // ============== NON-API ============

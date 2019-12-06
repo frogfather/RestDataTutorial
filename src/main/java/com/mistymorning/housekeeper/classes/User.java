@@ -36,8 +36,6 @@ public class User {
 
     private boolean enabled;
 
-    private boolean isUsing2FA;
-
     private String secret;
 
     //
@@ -108,14 +106,6 @@ public class User {
         this.enabled = enabled;
     }
 
-    public boolean isUsing2FA() {
-        return isUsing2FA;
-    }
-
-    public void setUsing2FA(boolean isUsing2FA) {
-        this.isUsing2FA = isUsing2FA;
-    }
-
     public String getSecret() {
         return secret;
     }
@@ -154,7 +144,7 @@ public class User {
     public String toString() {
         final StringBuilder builder = new StringBuilder();
         builder.append("User [id=").append(id).append(", firstName=").append(firstName).append(", lastName=").append(lastName).append(", email=").append(email).append(", password=").append(password).append(", enabled=").append(enabled).append(", isUsing2FA=")
-                .append(isUsing2FA).append(", secret=").append(secret).append(", roles=").append(roles).append("]");
+                .append(", secret=").append(secret).append(", roles=").append(roles).append("]");
         return builder.toString();
     }
 

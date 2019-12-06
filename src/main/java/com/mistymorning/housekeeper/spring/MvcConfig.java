@@ -38,22 +38,7 @@ public class MvcConfig implements WebMvcConfigurer {
 
     @Override
     public void addViewControllers(final ViewControllerRegistry registry) {
-        registry.addViewController("/").setViewName("forward:/login");
-        registry.addViewController("/login");
-        registry.addViewController("/customLogin");
-        registry.addViewController("/logout.html");
-        registry.addViewController("/homepage.html");
-        registry.addViewController("/expiredAccount.html");
-        registry.addViewController("/badUser.html");
-        registry.addViewController("/emailError.html");
-        registry.addViewController("/home.html");
-        registry.addViewController("/console.html");
-        registry.addViewController("/admin.html");
-        registry.addViewController("/successRegister.html");
-        registry.addViewController("/forgetPassword.html");
-        registry.addViewController("/updatePassword.html");
-        registry.addViewController("/changePassword.html");
-        registry.addViewController("/users.html");
+     
     }
 
     @Override
@@ -82,15 +67,6 @@ public class MvcConfig implements WebMvcConfigurer {
         return cookieLocaleResolver;
     }
 
-    // @Bean
-    // public MessageSource messageSource() {
-    // final ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
-    // messageSource.setBasename("classpath:messages");
-    // messageSource.setUseCodeAsDefaultMessage(true);
-    // messageSource.setDefaultEncoding("UTF-8");
-    // messageSource.setCacheSeconds(0);
-    // return messageSource;
-    // }
 
     @Bean
     public EmailValidator usernameValidator() {
