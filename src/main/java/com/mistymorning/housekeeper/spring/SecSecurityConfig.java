@@ -14,12 +14,16 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 
+import com.mistymorning.housekeeper.security.JwtRequestFilter;
 import com.mistymorning.housekeeper.security.google2fa.CustomAuthenticationProvider;
 import com.mistymorning.housekeeper.security.google2fa.CustomWebAuthenticationDetailsSource;
+
 
 @Configuration
 @ComponentScan(basePackages = { "com.mistymorning.housekeeper.security" })
@@ -29,38 +33,16 @@ public class SecSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private UserDetailsService userDetailsService;
-
-    @Autowired
-    private LogoutSuccessHandler myLogoutSuccessHandler;
-
-    @Autowired
-    private AuthenticationFailureHandler authenticationFailureHandler;
-
-    @Autowired
-    private CustomWebAuthenticationDetailsSource authenticationDetailsSource;
-
-    public SecSecurityConfig() {
-        super();
-    }
-
     
-    @Bean
-    @Override
-    public AuthenticationManager authenticationManagerBean() throws Exception {
-        return super.authenticationManagerBean();
-    }
-    
-    @Override
-    protected void configure(final AuthenticationManagerBuilder auth) throws Exception {
-        auth.authenticationProvider(authProvider());
-    }
+	@Autowired
+	private JwtRequestFilter jwtRequestFilter;
 
-    @Override
-    public void configure(final WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/resources/**");
-    }
+	@Override
+	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+		auth.userDetailsService(userDetailsService);
+	}
 
-    @Override
+	@Override
     protected void configure(final HttpSecurity http) throws Exception {
         // @formatter:off
     	// eventually our session management should be:
@@ -74,15 +56,18 @@ public class SecSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/user/updatePassword*","/user/savePassword*","/updatePassword*").hasAuthority("CHANGE_PASSWORD_PRIVILEGE")
                 .anyRequest().hasAuthority("READ_PRIVILEGE")
                 .and().sessionManagement()
-				.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-            .and()
-            .logout()
-                .logoutSuccessHandler(myLogoutSuccessHandler)
-                .logoutSuccessUrl("/logout.html?logSucc=true")
-                .permitAll();
+				.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        
+        http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
     // @formatter:on
     }
 
+    @Bean
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
+    }
+    
     // beans
 
     @Bean
@@ -95,6 +80,6 @@ public class SecSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public PasswordEncoder encoder() {
-        return new BCryptPasswordEncoder(11);
+        return NoOpPasswordEncoder.getInstance();
     }
 }
