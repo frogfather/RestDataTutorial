@@ -1,8 +1,10 @@
 package com.mistymorning.housekeeper.services.api;
 
-import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Optional;
+
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
 import com.mistymorning.housekeeper.classes.PasswordResetToken;
 import com.mistymorning.housekeeper.classes.User;
@@ -41,11 +43,5 @@ public interface UserService {
     boolean checkIfValidOldPassword(User user, String password);
 
     String validateVerificationToken(String token);
-
-    String generateQRUrl(User user) throws UnsupportedEncodingException;
-
-    User updateUser2FA(boolean use2FA);
-
-    List<String> getUsersFromSessionRegistry();
 
 }
