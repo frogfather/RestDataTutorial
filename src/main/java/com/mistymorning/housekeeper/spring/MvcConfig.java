@@ -21,9 +21,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 
-import com.mistymorning.com.housekeeper.validation.EmailValidator;
-import com.mistymorning.com.housekeeper.validation.PasswordMatchesValidator;
-
 @Configuration
 @ComponentScan(basePackages = { "com.mistymorning.housekeeper" })
 @EnableWebMvc
@@ -65,17 +62,6 @@ public class MvcConfig implements WebMvcConfigurer {
         final CookieLocaleResolver cookieLocaleResolver = new CookieLocaleResolver();
         cookieLocaleResolver.setDefaultLocale(Locale.ENGLISH);
         return cookieLocaleResolver;
-    }
-
-
-    @Bean
-    public EmailValidator usernameValidator() {
-        return new EmailValidator();
-    }
-    
-    @Bean
-    public PasswordMatchesValidator passwordMatchesValidator() {
-        return new PasswordMatchesValidator();
     }
 
     @Bean
