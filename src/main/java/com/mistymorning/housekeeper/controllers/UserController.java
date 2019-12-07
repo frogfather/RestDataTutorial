@@ -42,7 +42,7 @@ public class UserController {
 			
 		} catch (BadCredentialsException e) {
 			LOG.debug("Authentication failed for user "+authenticationRequest.getUsername());
-			throw new Exception("Incorrect username or password, e");
+			throw new Exception("Incorrect username or password", e);
 		}
 		
 		final User user = userService

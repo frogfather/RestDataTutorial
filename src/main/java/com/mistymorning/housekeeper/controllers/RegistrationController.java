@@ -42,7 +42,6 @@ import com.mistymorning.housekeeper.classes.UserDto;
 import com.mistymorning.housekeeper.classes.VerificationToken;
 import com.mistymorning.housekeeper.events.OnRegistrationCompleteEvent;
 import com.mistymorning.housekeeper.exceptions.InvalidOldPasswordException;
-import com.mistymorning.housekeeper.listeners.*;
 import com.mistymorning.housekeeper.services.api.UserSecurityService;
 import com.mistymorning.housekeeper.services.api.UserService;
 import com.mistymorning.housekeeper.utilities.GenericResponse;
